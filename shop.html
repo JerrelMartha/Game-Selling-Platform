@@ -1,0 +1,2298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Realm Link Interactive Items Shop - Buy deals for Planet Plunder and Spell Controller.">
+    <title>In-Game Items Shop | Realm Link Interactive</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Identity Services (GIS) Client SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="logo-home">
+                Realm<span>Link</span>
+            </a>
+            <div class="hud-container">
+                <ul class="nav-links">
+                    <li><a href="index.html" id="nav-home"><svg class="icon-svg" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Home</a></li>
+                    <li><a href="index.html#page-games" id="nav-games"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M12 12h.01"></path><path d="M17 10v4"></path><path d="M15 12h4"></path><path d="M6 12h4"></path><path d="M8 10v4"></path></svg>Games</a></li>
+                    <li><a href="shop.html" id="nav-shop" class="active"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>Shop</a></li>
+                </ul>
+                <button class="cart-hud-btn" id="btn-open-cart" style="margin-left: 0.5rem;">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg> <span class="cart-count" id="cart-indicator">0</span>
+                </button>
+                <div class="auth-hud">
+                    <button class="btn-sign-in" id="btn-open-auth" style="display: none;">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Sign In
+                    </button>
+                    <div class="user-hud" id="user-hud" style="display: flex;">
+                        <div class="user-hud-avatar" id="user-avatar-btn">U</div>
+                        <div class="user-hud-info">
+                            <span class="user-hud-name" id="hud-username">Username</span>
+                            <span class="user-hud-status" id="hud-points">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12"></path><path d="M15 9H11.5a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5H9"></path></svg> 0 Points
+                            </span>
+                        </div>
+                        <div class="user-menu-dropdown" id="user-dropdown">
+                            <div class="user-menu-profile-summary">
+                                <span class="user-menu-username" id="dropdown-username">Username</span>
+                                <span class="user-menu-uid" id="dropdown-uid">UID: RL-00000</span>
+                                <span class="user-menu-pts" id="dropdown-points">
+                                    <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12"></path><path d="M15 9H11.5a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5H9"></path></svg> 0 Points
+                                </span>
+                            </div>
+                            <div class="user-menu-divider"></div>
+                            <div class="user-menu-item" id="btn-dropdown-overview">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg> Overview
+                            </div>
+                            <div class="user-menu-item" id="btn-dropdown-inventory">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 20V10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"></path><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><path d="M8 22V12a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v10"></path></svg> Inventory
+                            </div>
+                            <div class="user-menu-item" id="btn-dropdown-friends">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends Hub
+                            </div>
+                            <div class="user-menu-item" id="btn-dropdown-achievements">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a6 6 0 0 0-6 6v3.5a6 6 0 0 0 12 0V8a6 6 0 0 0-6-6Z"></path></svg> Achievements
+                            </div>
+                            <div class="user-menu-divider"></div>
+                            <div class="user-menu-item" id="btn-logout" style="color: hsl(0, 85%, 65%);">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Log Out
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main style="min-height: 100vh; padding-top: 5rem;">
+        
+        <!-- View 1: Game Selection Landing Portal -->
+        <div class="shop-landing-container" id="game-selection-portal">
+            <h1 class="shop-landing-title">Welcome to the Items Shop</h1>
+            <p class="shop-landing-subtitle">Select a realm below to explore buyable deals and exclusive cosmetic rewards.</p>
+            
+            <div class="showcase-carousel-wrapper" style="margin-bottom: 2rem;">
+                <!-- Left arrow -->
+                <button type="button" class="showcase-arrow prev" id="btn-portal-prev">&lsaquo;</button>
+                
+                <!-- Viewport -->
+                <div class="showcase-carousel-viewport">
+                    <div class="showcase-carousel-track" id="portal-carousel-track">
+                        
+                        <!-- Card 1: Planet Plunder -->
+                        <div class="game-select-card" data-game="planet-plunder" id="card-pp">
+                            <div class="game-select-card-graphic">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5L13 10l-4-4Z"></path><path d="m12 8 4 4 6-6-1.5-1.5Z"></path><path d="M9 15h.01"></path><path d="M11.5 11.5h.01"></path><path d="M16 8h.01"></path><path d="M18.5 5.5h.01"></path></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Planet Plunder</h2>
+                            <p class="game-select-card-desc">Equip custom heavy cruisers, modify plasma visual effects, and obtain star currencies to rule the galaxies.</p>
+                        </div>
+                        
+                        <!-- Card 2: Spell Controller -->
+                        <div class="game-select-card" data-game="spell-controller" id="card-sc">
+                            <div class="game-select-card-graphic">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"></line><path d="M19 9l-4-4"></path><path d="M12 2v2"></path><path d="M19 12h2"></path><path d="M22 3l-1 1"></path><path d="M3 22l1-1"></path><path d="M2 12h2"></path><path d="M12 20v2"></path></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Spell Controller</h2>
+                            <p class="game-select-card-desc">Redeem staff skins, cast fiery flame trails, and obtain premium arcane shards to clear the deepest dungeons.</p>
+                        </div>
+
+                        <!-- Card 3: Neon Racer -->
+                        <div class="game-select-card" data-game="neon-racer" id="card-nr">
+                            <div class="game-select-card-graphic">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-7.54 16.59M19.54 18.59A10 10 0 0 0 12 2"></path><path d="m12 14 4-4"></path><circle cx="12" cy="14" r="1"></circle></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Neon Racer</h2>
+                            <p class="game-select-card-desc">Get fast cars, custom rims, neon underglows, and grid currencies to rule the neon highway.</p>
+                        </div>
+
+                        <!-- Card 4: Shadow Blade -->
+                        <div class="game-select-card" data-game="shadow-blade" id="card-sb">
+                            <div class="game-select-card-graphic">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><polyline points="14.5 17.5 3 6 6 3 17.5 14.5"></polyline><line x1="13" y1="19" x2="19" y2="13"></line><line x1="16" y1="16" x2="20" y2="20"></line><line x1="19" y1="21" x2="21" y2="19"></line></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Shadow Blade</h2>
+                            <p class="game-select-card-desc">Equip obsidian katanas, deflect incoming projectiles, and obtain shinobi masks.</p>
+                        </div>
+
+                        <!-- Card 5: Eco Builder -->
+                        <div class="game-select-card" data-game="eco-builder" id="card-eb">
+                            <div class="game-select-card-graphic">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><path d="M2 22c1.25-5.25 4.5-8.5 8.5-8.5h3v-3c0-4 3.25-7.25 8.5-8.5-1.25 5.25-4.5 8.5-8.5 8.5h-3v3c0 4-3.25 7.25-8.5 8.5z"></path><path d="M13.5 13.5 22 22"></path></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Eco Builder</h2>
+                            <p class="game-select-card-desc">Customize biodome dome shells, modify atmosphere conditions, and unlock environment suits.</p>
+                        </div>
+
+                        <!-- Card 6: Spell Craft -->
+                        <div class="game-select-card" data-game="spell-craft" id="card-sf">
+                            <div class="game-select-card-graphic">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Spell Craft</h2>
+                            <p class="game-select-card-desc">Unlock floating wizard keep designs, rune combination books, and friendly drake companions.</p>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!-- Right arrow -->
+                <button type="button" class="showcase-arrow next" id="btn-portal-next">&rsaquo;</button>
+            </div>
+            
+            <div class="showcase-dots" id="portal-dots"></div>
+        </div>
+
+        <!-- View 2: Active Game Items Store -->
+        <div class="active-shop-container" id="active-game-store" style="display: none;">
+            <button class="btn-back-selection" id="btn-back-selection">
+                ← Back to Game Selection
+            </button>
+            
+            <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+                <h2 id="store-game-title">Game Title Shop</h2>
+                <p id="store-game-desc">Get the best packs and unlocks for your character.</p>
+            </div>
+
+            <!-- Shop Mode Toggle -->
+            <div class="shop-controls" style="margin-bottom: 1.5rem; justify-content: flex-start;">
+                <button class="game-toggle-btn active" id="btn-mode-deals">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg> Buy Deals
+                </button>
+                <button class="game-toggle-btn" id="btn-mode-rewards">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12"></path><path d="M15 9H11.5a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5H9"></path></svg> Points Shop
+                </button>
+            </div>
+
+            <!-- Deals Grid -->
+            <div class="shop-grid" id="shop-items-container">
+                <!-- Cards populated dynamically via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.05); background: var(--bg-secondary);">
+        <div class="footer-content" style="max-width: 1200px; margin: 0 auto; padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <a href="index.html" class="logo">
+                Realm<span>Link</span>
+            </a>
+            <p class="copyright" style="font-size: 0.85rem; color: var(--text-muted);">&copy; 2026 Realm Link Interactive. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Checkout Modal Overlay -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-container">
+            <button class="modal-close" id="btn-close-checkout">&times;</button>
+            <h3 style="margin-bottom: 0.25rem; font-weight: 800; font-size: 1.4rem;">Checkout</h3>
+            <p id="checkout-item-title" style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 0.95rem;">Purchasing: Deal Name</p>
+
+            <!-- Payment Method Tabs -->
+            <div class="checkout-method-tabs">
+                <button class="checkout-method-tab active" id="checkout-tab-paypal">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4v-6Z"></path></svg> PayPal
+                </button>
+                <button class="checkout-method-tab" id="checkout-tab-card">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg> Card
+                </button>
+                <button class="checkout-method-tab" id="checkout-tab-gpay">
+                    <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: none; fill: currentColor;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z"></path></svg> GPay
+                </button>
+                <button class="checkout-method-tab" id="checkout-tab-apple">
+                    <svg class="icon-svg" viewBox="0 0 24 24" style="stroke: none; fill: currentColor;"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-.95-.44-1.85-.45-2.87 0-1.2.53-2.04.4-2.95-.45C4.3 16.32 3.67 9.4 6.95 9.17c1.37.1 2.33.84 3.1 1.07 1-.36 2.35-.95 3.9-.7 1.62.13 2.95.8 3.56 2.05-3.23 1.9-2.72 6.07.5 7.37-.58 1.48-1.38 2.82-2.3 3.75zM12.03 8.25c-.2-.02-.5-.05-.56-.05 0-2.48 2.08-4.52 4.48-4.6.2.73-.08 1.95-.98 2.97-.83.95-2.12 1.63-2.94 1.68z"></path></svg> Apple
+                </button>
+                <button class="checkout-method-tab" id="checkout-tab-ideal">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="m17 3 5 5-5 5"></path><path d="M22 8H9a4 4 0 0 0-4 4v5"></path><path d="m7 21-5-5 5-5"></path><path d="M2 16h13a4 4 0 0 0 4-4V7"></path></svg> iDEAL
+                </button>
+            </div>
+
+            <!-- PayPal Checkout -->
+            <div class="payment-form-section active" id="section-paypal">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Sign in to your PayPal account to complete this transaction securely.
+                </p>
+                <form id="form-paypal">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="paypal-email">PayPal Email Address</label>
+                        <input type="email" id="paypal-email" class="form-input" required placeholder="paypal@domain.com">
+                        <span class="form-error" id="error-paypal-email"></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="paypal-password">PayPal Password</label>
+                        <input type="password" id="paypal-password" class="form-input" required placeholder="••••••••">
+                        <span class="form-error" id="error-paypal-password"></span>
+                    </div>
+                    <button type="submit" class="btn-form" style="background: var(--text-primary); color: var(--bg-primary);">
+                        Pay with PayPal <span class="checkout-price-label" id="checkout-price-paypal">$0.00</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Credit Card / Bank Checkout -->
+            <div class="payment-form-section" id="section-card">
+                <form id="form-card">
+                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                        <label for="card-name">Cardholder Name</label>
+                        <input type="text" id="card-name" class="form-input" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" class="form-input" required placeholder="4111 2222 3333 4444" maxlength="19">
+                        <span class="form-error" id="error-card-number"></span>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="card-expiry">Expiry Date</label>
+                            <input type="text" id="card-expiry" class="form-input" required placeholder="MM/YY" maxlength="5">
+                            <span class="form-error" id="error-card-expiry"></span>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="card-cvv">CVV</label>
+                            <input type="password" id="card-cvv" class="form-input" required placeholder="•••" maxlength="4">
+                            <span class="form-error" id="error-card-cvv"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-form">
+                        Pay Securely <span class="checkout-price-label" id="checkout-price-card">$0.00</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Google Pay Checkout -->
+            <div class="payment-form-section" id="section-gpay">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    Pay instantly using your saved Google Account cards.
+                </p>
+                <button type="button" class="btn-gpay" id="btn-gpay-submit">
+                    <span style="font-size: 1.1rem; vertical-align: middle;">G</span> Pay <span class="checkout-price-label" id="checkout-price-gpay">$0.00</span>
+                </button>
+            </div>
+
+            <!-- Apple Pay Checkout -->
+            <div class="payment-form-section" id="section-apple">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    Pay quickly with your Apple device.
+                </p>
+                <button type="button" class="btn-applepay" id="btn-apple-submit">
+                    <span></span> Pay <span class="checkout-price-label" id="checkout-price-apple">$0.00</span>
+                </button>
+            </div>
+
+            <!-- iDEAL Checkout -->
+            <div class="payment-form-section" id="section-ideal">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Choose your bank to complete payment directly from your bank account.
+                </p>
+                <form id="form-ideal">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="ideal-bank">Dutch Bank</label>
+                        <select id="ideal-bank" class="form-input" required style="width: 100%; background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <option value="" disabled selected>Select your bank...</option>
+                            <option value="ING">ING</option>
+                            <option value="Rabobank">Rabobank</option>
+                            <option value="ABN AMRO">ABN AMRO</option>
+                            <option value="SNS Bank">SNS Bank</option>
+                            <option value="ASN Bank">ASN Bank</option>
+                            <option value="RegioBank">RegioBank</option>
+                            <option value="Triodos Bank">Triodos Bank</option>
+                            <option value="Knab">Knab</option>
+                        </select>
+                        <span class="form-error" id="error-ideal-bank"></span>
+                    </div>
+                    <button type="submit" class="btn-form">
+                        Pay with iDEAL <span class="checkout-price-label" id="checkout-price-ideal">$0.00</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Processing Loading View -->
+            <div class="loading-spinner-container" id="payment-loading">
+                <div class="spinner"></div>
+                <p style="font-weight: 600; font-size: 0.95rem;">Contacting merchant banks...</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Please do not close this window</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal Overlay -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="profile-modal-container">
+            <button class="modal-close" id="btn-close-profile" aria-label="Close Profile Modal">&times;</button>
+            <div class="profile-sidebar">
+                <div class="profile-sidebar-user">
+                    <div class="profile-sidebar-avatar" id="profile-avatar">U</div>
+                    <div class="profile-sidebar-name" id="profile-username">Username</div>
+                    <div class="profile-sidebar-badge" id="profile-badge">Member</div>
+                </div>
+                <ul class="profile-nav-list">
+                    <li><button class="profile-nav-item active" data-tab="overview">📊 Overview</button></li>
+                    <li><button class="profile-nav-item" data-tab="inventory">🎒 Inventory</button></li>
+                    <li><button class="profile-nav-item" data-tab="billing">💳 Billing Log</button></li>
+                    <li><button class="profile-nav-item" data-tab="friends">👥 Friends Hub</button></li>
+                    <li><button class="profile-nav-item" data-tab="achievements">🏆 Achievements</button></li>
+                </ul>
+            </div>
+            <div class="profile-content-area" id="profile-content-area">
+                <!-- Tab contents populated dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer Backdrop Overlay -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-drawer-header">
+            <h3><svg class="icon-svg" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg> Shopping Cart</h3>
+            <button class="btn-close-cart" id="btn-close-cart-drawer">&times;</button>
+        </div>
+        
+        <div class="cart-drawer-content">
+            <div class="cart-items-list" id="cart-items-list">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            
+            <div class="cart-summary-section">
+                <!-- Coupon Code Section -->
+                <div class="coupon-section">
+                    <label for="input-coupon">Coupon Code:</label>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                        <input type="text" id="input-coupon" class="form-input" placeholder="e.g. START2026" style="flex: 1; padding: 0.5rem;">
+                        <button type="button" id="btn-apply-coupon" class="btn-buy" style="padding: 0.5rem 1rem; margin: 0;">Apply</button>
+                    </div>
+                    <span id="coupon-status" class="coupon-status"></span>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="price-row discount-row" id="cart-discount-row" style="display: none;">
+                        <span>Discount (<span id="discount-label">0%</span>):</span>
+                        <span id="cart-discount">-$0.00</span>
+                    </div>
+                    <div class="price-row total-row">
+                        <span>Total:</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                </div>
+
+                <button type="button" id="btn-cart-checkout" class="btn-form" style="width: 100%; margin-top: 1rem;">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        const SVG_ICONS = {
+            coin: `<svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12"></path><path d="M15 9H11.5a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5H9"></path></svg>`,
+            overview: `<svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>`,
+            inventory: `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 20V10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"></path><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><path d="M8 22V12a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v10"></path></svg>`,
+            billing: `<svg class="icon-svg" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>`,
+            friends: `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+            achievements: `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a6 6 0 0 0-6 6v3.5a6 6 0 0 0 12 0V8a6 6 0 0 0-6-6Z"></path></svg>`,
+            logout: `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>`,
+            rocket: `<svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5L13 10l-4-4Z"></path><path d="m12 8 4 4 6-6-1.5-1.5Z"></path><path d="M9 15h.01"></path><path d="M11.5 11.5h.01"></path><path d="M16 8h.01"></path><path d="M18.5 5.5h.01"></path></svg>`,
+            wand: `<svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"></line><path d="M19 9l-4-4"></path><path d="M12 2v2"></path><path d="M19 12h2"></path><path d="M22 3l-1 1"></path><path d="M3 22l1-1"></path><path d="M2 12h2"></path><path d="M12 20v2"></path></svg>`,
+            shoppingCart: `<svg class="icon-svg" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>`,
+            user: `<svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`,
+            zap: `<svg class="icon-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`
+        };
+
+        // ==========================================
+        // AUTHENTICATION SECURITY GUARD
+        // ==========================================
+
+        let currentUser = null;
+
+        // Retrieve current active user session
+        function getAccounts() {
+            try {
+                const data = localStorage.getItem('realm_link_accounts');
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveAccounts(accounts) {
+            try {
+                localStorage.setItem('realm_link_accounts', JSON.stringify(accounts));
+            } catch (e) {}
+        }
+
+        function ensureUserFields(user) {
+            let changed = false;
+            if (!user.userId) {
+                user.userId = 'RL-' + Math.floor(10000 + Math.random() * 90000);
+                changed = true;
+            }
+            if (!user.friends) {
+                user.friends = [
+                    { name: 'CyberPioneer', status: 'online' },
+                    { name: 'SpellCaster99', status: 'offline' },
+                    { name: 'NeonKnight', status: 'online' }
+                ];
+                changed = true;
+            }
+            if (!user.gameActivity) {
+                user.gameActivity = {};
+            }
+            const gamesList = ['planet-plunder', 'spell-controller', 'neon-racer', 'shadow-blade', 'eco-builder', 'spell-craft'];
+            gamesList.forEach(g => {
+                if (user.gameActivity[g] === undefined) {
+                    user.gameActivity[g] = Math.floor(5 + Math.random() * 145);
+                    changed = true;
+                }
+            });
+            if (user.points === undefined) {
+                user.points = 0;
+                changed = true;
+            }
+            if (!user.inventory) {
+                user.inventory = [];
+                changed = true;
+            }
+            return changed;
+        }
+
+        function getSessionUser() {
+            try {
+                const email = localStorage.getItem('realm_link_session') || sessionStorage.getItem('realm_link_session');
+                if (!email) return null;
+                const accounts = getAccounts();
+                const user = accounts[email.toLowerCase().trim()] || null;
+                if (user) {
+                    if (ensureUserFields(user)) {
+                        saveAccounts(accounts);
+                    }
+                }
+                return user;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function setSessionUser(email) {
+            try {
+                if (email) {
+                    localStorage.setItem('realm_link_session', email.toLowerCase().trim());
+                    sessionStorage.setItem('realm_link_session', email.toLowerCase().trim());
+                } else {
+                    localStorage.removeItem('realm_link_session');
+                    sessionStorage.removeItem('realm_link_session');
+                }
+            } catch (e) {}
+        }
+
+        // Enforce Authentication Check Immediately
+        currentUser = getSessionUser();
+        if (!currentUser) {
+            // Redirect unauthenticated users back to index.html with authentication trigger
+            window.location.replace("index.html?triggerAuth=true");
+        }
+
+        function updateAuthHUD() {
+            const userHud = document.getElementById('user-hud');
+            const hudUsername = document.getElementById('hud-username');
+            const hudPoints = document.getElementById('hud-points');
+            
+            currentUser = getSessionUser();
+            
+            if (currentUser) {
+                if (userHud) userHud.style.display = 'flex';
+                if (currentUser.email && currentUser.email.toLowerCase() === 'admin@realmlink.com') {
+                    if (hudUsername) hudUsername.textContent = `${currentUser.username || 'RealmAdmin'} (Admin)`;
+                } else {
+                    if (hudUsername) hudUsername.textContent = currentUser.username || 'User';
+                }
+                const pts = currentUser.points !== undefined ? currentUser.points : 0;
+                if (hudPoints) hudPoints.innerHTML = `${SVG_ICONS.coin} ${pts.toLocaleString()} Points`;
+                
+                const avatarBtn = document.getElementById('user-avatar-btn');
+                if (avatarBtn) {
+                    if (currentUser.avatarUrl) {
+                        avatarBtn.innerHTML = `<img src="${currentUser.avatarUrl}" class="user-hud-avatar-img" alt="User Avatar" referrerPolicy="no-referrer">`;
+                    } else {
+                        const nameChar = (currentUser.username && currentUser.username.length > 0)
+                            ? currentUser.username.charAt(0).toUpperCase()
+                            : 'U';
+                        avatarBtn.textContent = nameChar;
+                    }
+                }
+
+                // Populate dynamic dropdown menu values
+                const dropdownUsername = document.getElementById('dropdown-username');
+                const dropdownUid = document.getElementById('dropdown-uid');
+                const dropdownPoints = document.getElementById('dropdown-points');
+                
+                if (dropdownUsername) dropdownUsername.textContent = currentUser.username || 'User';
+                if (dropdownUid) dropdownUid.textContent = `UID: ${currentUser.userId || 'RL-00000'}`;
+                if (dropdownPoints) dropdownPoints.innerHTML = `${SVG_ICONS.coin} ${pts.toLocaleString()} Points`;
+            }
+        }
+
+        // ==========================================
+        // TOAST NOTIFICATIONS
+        // ==========================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'ℹ️';
+            if (type === 'success') icon = '✅';
+            if (type === 'error') icon = '❌';
+            
+            toast.textContent = `${icon} ${message}`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // ==========================================
+        // SHOP DATA AND CONFIGURATIONS
+        // ==========================================
+        const shopDeals = {
+            'planet-plunder': [
+                { id: 'pp-credits-1', title: '1,500 Star Credits', desc: 'Acquire space currency to purchase cosmetics and parts in Planet Plunder.', price: 9.99, graphic: '🪙', badge: 'Currency' },
+                { id: 'pp-skin-phoenix', title: 'Cosmic Phoenix Skin', desc: 'Apply a radiant fire aura design to your commander cruisers.', price: 14.99, graphic: '🚀', badge: 'Cruiser Skin' },
+                { id: 'pp-weapon-plasma', title: 'Plasma Cannon VFX', desc: 'Special custom visual effects for your heavy cruiser cannons.', price: 4.99, graphic: '⚡', badge: 'VFX Modifier' },
+                { id: 'pp-bundle-explorer', title: 'Elite Voyager Pack', desc: 'Includes 5,000 Credits, 2 Ship Skins, and a unique Pilot Icon.', price: 29.99, graphic: '📦', badge: 'Mega Bundle' }
+            ],
+            'spell-controller': [
+                { id: 'sc-gems-1', title: '200 Arcane Shards', desc: 'Premium shards used to fast-track spell crafting and upgrades.', price: 9.99, graphic: '💎', badge: 'Premium Shards' },
+                { id: 'sc-skin-fire', title: 'Phoenix Flame Staff', desc: 'Enchant your staff to display blazing fire particles in dungeon combat.', price: 12.99, graphic: '🪄', badge: 'Staff Skin' },
+                { id: 'sc-spell-nova', title: 'Supernova Cast Effect', desc: 'Replaces the default explosion anim with a miniature supernova.', price: 5.99, graphic: '💥', badge: 'Spell Animation' },
+                { id: 'sc-bundle-sorcerer', title: 'Archmage Vault Chest', desc: 'Includes 1,000 Shards, 3 Staff Skins, and the Master Hood.', price: 34.99, graphic: '🔮', badge: 'Legendary Bundle' }
+            ],
+            'neon-racer': [
+                { id: 'nr-bolts-1', title: '5,000 Neon Bolts', desc: 'Acquire grid currency to buy cosmetic decals and upgrades in Neon Racer.', price: 9.99, graphic: '⚡', badge: 'Currency' },
+                { id: 'nr-car-synth', title: 'Apex Synth Cruiser', desc: 'Unlock a high-speed vehicle with classic synthwave neon outlines.', price: 14.99, graphic: '🏎️', badge: 'Car Model' },
+                { id: 'nr-trail-nitro', title: 'Nitro Cyber Trail', desc: 'Exhaust trail discharges bright electric cyan particles on drift boost.', price: 5.99, graphic: '💨', badge: 'VFX Modifier' },
+                { id: 'nr-bundle-grid', title: 'Grid Master Bundle', desc: 'Includes 12,000 Bolts, 2 Car Models, and unique Neon Undercar Glow.', price: 29.99, graphic: '📦', badge: 'Mega Bundle' }
+            ],
+            'shadow-blade': [
+                { id: 'sb-shards-1', title: '300 Jade Shards', desc: 'Gather premium jade shards used to craft legendary shinobi tools.', price: 9.99, graphic: '🟢', badge: 'Premium Shards' },
+                { id: 'sb-katana-obsidian', title: 'Midnight Obsidian Katana', desc: 'A sleek jet-black katana skin that glows with dark shadow energy.', price: 14.99, graphic: '⚔️', badge: 'Katana Skin' },
+                { id: 'sb-dash-smoke', title: 'Smoke Bomb Dash VFX', desc: 'Generates a thick puff of dark ninja smoke when dashing.', price: 4.99, graphic: '💨', badge: 'Dash Animation' },
+                { id: 'sb-bundle-shinobi', title: 'Shadow Shinobi Chest', desc: 'Includes 1,000 Jade Shards, the Oni Demon Mask, and 2 Katana Skins.', price: 34.99, graphic: '🔮', badge: 'Legendary Bundle' }
+            ],
+            'eco-builder': [
+                { id: 'eb-cells-1', title: '10,000 Bio-Energy Cells', desc: 'Purchase bio-energy cells to speed up planetary greenhouse growth.', price: 9.99, graphic: '🔋', badge: 'Bio Energy' },
+                { id: 'eb-dome-vapor', title: 'Vaporwave Biodome Theme', desc: 'Change greenhouse glass textures to animated wireframe grids.', price: 12.99, graphic: '🪐', badge: 'Dome Theme' },
+                { id: 'eb-vfx-aurora', title: 'Aurora Borealis Atmos', desc: 'Creates shifting polar light projections across dome skies.', price: 6.99, graphic: '🌌', badge: 'Sky VFX' },
+                { id: 'eb-bundle-pioneer', title: 'Pioneer Expansion Vault', desc: 'Unlock 3 Biodome Skins, 25,000 Bio-Energy, and the Hazmat Suit.', price: 27.99, graphic: '📦', badge: 'Mega Bundle' }
+            ],
+            'spell-craft': [
+                { id: 'sf-runes-1', title: '500 Prismatic Runes', desc: 'Acquire magical runes used to synthesize advanced recipe items.', price: 9.99, graphic: '💠', badge: 'Magic Runes' },
+                { id: 'sf-theme-keep', title: 'Floating Keep Castle Skin', desc: 'Construct wizard towers with gravity-defying floating voxel bases.', price: 16.99, graphic: '🏰', badge: 'Castle Theme' },
+                { id: 'sf-vfx-portal', title: 'Nether Portal Animation', desc: 'Replaces generic teleport lines with a purple dimensional portal.', price: 5.99, graphic: '🌀', badge: 'Portal Animation' },
+                { id: 'sf-bundle-creator', title: 'Archon Builder Vault', desc: 'Includes 2,000 Runes, a Floating Island Theme, and Baby Drake pet.', price: 32.99, graphic: '🔮', badge: 'Legendary Bundle' }
+            ]
+        };
+
+        const pointRewards = {
+            'planet-plunder': [
+                { id: 'pp-reward-decal', title: 'Retro Cruiser Decal', desc: 'A classic retro neon decal for spacecraft wings.', points: 1000, graphic: '🎨', badge: 'Decal' },
+                { id: 'pp-reward-trail', title: 'Blue Warp Trail', desc: 'Changes warp drive flare to electric sapphire blue.', points: 2500, graphic: '☄️', badge: 'Warp Trail' },
+                { id: 'pp-reward-icon', title: 'Space Pirate Icon', desc: 'Unlock pirate commander portrait icon for multiplayer.', points: 800, graphic: '🏴‍☠️', badge: 'Avatar' }
+            ],
+            'spell-controller': [
+                { id: 'sc-reward-hat', title: 'Wizard Hat Decor', desc: 'Glowing star wizard hat accessory.', points: 1500, graphic: '🧙‍♂️', badge: 'Hat Cosmetics' },
+                { id: 'sc-reward-trail', title: 'Arcane Spark Trail', desc: 'Generates sparkling violet trails when spellcasting.', points: 2000, graphic: '✨', badge: 'Cast Trail' },
+                { id: 'sc-reward-shield', title: 'Runeshield Shield Visual', desc: 'Mana shield spells display rotation of celestial runes.', points: 3000, graphic: '🛡️', badge: 'Shield VFX' }
+            ],
+            'neon-racer': [
+                { id: 'nr-reward-neon', title: 'Synth Neon Glow', desc: 'Add a glowing pink synth underglow to your vehicle chassis.', points: 1500, graphic: '💡', badge: 'Cosmetic' },
+                { id: 'nr-reward-rims', title: 'Chrome Spinner Rims', desc: 'Equip custom shiny spinner wheels to all grid racers.', points: 2000, graphic: '💿', badge: 'Wheels' }
+            ],
+            'shadow-blade': [
+                { id: 'sb-reward-mask', title: 'Oni Demon Mask', desc: 'Equip a traditional glowing red demon mask accessory.', points: 1800, graphic: '👺', badge: 'Hat Cosmetics' },
+                { id: 'sb-reward-shuriken', title: 'Kunai Throw Trail', desc: 'Generates sweeping white slashes when throw-dashing.', points: 2200, graphic: '✴️', badge: 'VFX Trail' }
+            ],
+            'eco-builder': [
+                { id: 'eb-reward-flora', title: 'Cybernetic Bonsai Decal', desc: 'Unlock a glowing mechanical bonsai plant for habitat tables.', points: 1200, graphic: '🪴', badge: 'Decal Decor' },
+                { id: 'eb-reward-suit', title: 'Hazmat Environment Suit', desc: 'A clean white hazard suit to wear outside planetary domes.', points: 2500, graphic: '🧑‍🚀', badge: 'Skin' }
+            ],
+            'spell-craft': [
+                { id: 'sf-reward-pet', title: 'Baby Drake Companion', desc: 'A friendly baby dragon companion that follows your voxel wizard.', points: 2000, graphic: '🐉', badge: 'Pet' },
+                { id: 'sf-reward-staff', title: 'Archon Rune Scepter', desc: 'Unlock a golden scepter skin showing levitating glyphs.', points: 2800, graphic: '📯', badge: 'Staff Skin' }
+            ]
+        };
+
+        const GAME_SHOP_INFO = {
+            'planet-plunder': {
+                title: 'Planet Plunder Items Store',
+                desc: 'Purchase items and upgrades for cooperative galactic combat.'
+            },
+            'spell-controller': {
+                title: 'Spell Controller Items Store',
+                desc: 'Unlock custom wizard equipment and mystical casting visual modifiers.'
+            },
+            'neon-racer': {
+                title: 'Neon Racer Items Store',
+                desc: 'Get fast cars, custom decals, neon underglows, and grid currencies.'
+            },
+            'shadow-blade': {
+                title: 'Shadow Blade Items Store',
+                desc: 'Acquire jade shards, custom katana weapons, and shinobi gear.'
+            },
+            'eco-builder': {
+                title: 'Eco Builder Items Store',
+                desc: 'Redeem biodome themes, atmospheric customizers, and builder suits.'
+            },
+            'spell-craft': {
+                title: 'Spell Craft Items Store',
+                desc: 'Purchase floating keep castle skins, spell book scrolls, and companions.'
+            }
+        };
+
+        let activeGameFilter = null; // 'planet-plunder' or 'spell-controller'
+        let currentShopMode = 'deals'; // 'deals' or 'rewards'
+        let cart = [];
+        let activeCoupon = null; // { code: 'START2026', rate: 0.20 }
+
+        function calculatePoints(price) {
+            const base = Math.floor(price) * 100;
+            let bonus = 0;
+            if (price >= 20.0) {
+                bonus = 500;
+            } else if (price >= 10.0) {
+                bonus = 200;
+            }
+            return { base, bonus, total: base + bonus };
+        }
+
+        // ==========================================
+        // GAME SELECTION AND STORE TRANSITIONS
+        // ==========================================
+        const selectionPortal = document.getElementById('game-selection-portal');
+        const activeStoreContainer = document.getElementById('active-game-store');
+        const storeGameTitle = document.getElementById('store-game-title');
+        const storeGameDesc = document.getElementById('store-game-desc');
+        const btnBackSelection = document.getElementById('btn-back-selection');
+
+        const btnModeDeals = document.getElementById('btn-mode-deals');
+        const btnModeRewards = document.getElementById('btn-mode-rewards');
+
+        document.getElementById('card-pp').addEventListener('click', () => enterGameShop('planet-plunder'));
+        document.getElementById('card-sc').addEventListener('click', () => enterGameShop('spell-controller'));
+        document.getElementById('card-nr').addEventListener('click', () => enterGameShop('neon-racer'));
+        document.getElementById('card-sb').addEventListener('click', () => enterGameShop('shadow-blade'));
+        document.getElementById('card-eb').addEventListener('click', () => enterGameShop('eco-builder'));
+        document.getElementById('card-sf').addEventListener('click', () => enterGameShop('spell-craft'));
+
+        btnBackSelection.addEventListener('click', () => exitGameShop());
+
+        btnModeDeals.addEventListener('click', () => {
+            btnModeDeals.classList.add('active');
+            btnModeRewards.classList.remove('active');
+            currentShopMode = 'deals';
+            renderActiveCatalog();
+        });
+
+        btnModeRewards.addEventListener('click', () => {
+            btnModeRewards.classList.add('active');
+            btnModeDeals.classList.remove('active');
+            currentShopMode = 'rewards';
+            renderActiveCatalog();
+        });
+
+        // ==========================================
+        // PORTAL SELECTION CAROUSEL
+        // ==========================================
+        let portalIndex = 0;
+
+        function updatePortalCarousel() {
+            const track = document.getElementById('portal-carousel-track');
+            if (!track) return;
+
+            const cards = track.querySelectorAll('.game-select-card');
+            if (cards.length === 0) return;
+
+            let visibleCount = 3;
+            if (window.innerWidth <= 600) visibleCount = 1;
+            else if (window.innerWidth <= 900) visibleCount = 2;
+
+            const maxIndex = cards.length - visibleCount;
+            if (portalIndex > maxIndex) portalIndex = maxIndex;
+            if (portalIndex < 0) portalIndex = 0;
+
+            const cardWidth = cards[0].getBoundingClientRect().width;
+            const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
+            const offset = portalIndex * (cardWidth + gap);
+
+            track.style.transform = `translateX(-${offset}px)`;
+
+            // Update disabled status (always active since it loops)
+            const btnPrev = document.getElementById('btn-portal-prev');
+            const btnNext = document.getElementById('btn-portal-next');
+            if (btnPrev) btnPrev.disabled = false;
+            if (btnNext) btnNext.disabled = false;
+
+            renderPortalDots(cards.length, visibleCount);
+        }
+
+        function renderPortalDots(totalCount, visibleCount) {
+            const dotsContainer = document.getElementById('portal-dots');
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+
+            const maxIndex = totalCount - visibleCount;
+            if (maxIndex <= 0) return;
+
+            for (let i = 0; i <= maxIndex; i++) {
+                const dot = document.createElement('span');
+                dot.className = `showcase-dot ${i === portalIndex ? 'active' : ''}`;
+                dot.addEventListener('click', () => {
+                    portalIndex = i;
+                    updatePortalCarousel();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        const btnPortalPrev = document.getElementById('btn-portal-prev');
+        const btnPortalNext = document.getElementById('btn-portal-next');
+
+        if (btnPortalPrev) {
+            btnPortalPrev.addEventListener('click', () => {
+                const track = document.getElementById('portal-carousel-track');
+                if (!track) return;
+                const cards = track.querySelectorAll('.game-select-card');
+                
+                let visibleCount = 3;
+                if (window.innerWidth <= 600) visibleCount = 1;
+                else if (window.innerWidth <= 900) visibleCount = 2;
+
+                const maxIndex = cards.length - visibleCount;
+                if (portalIndex > 0) {
+                    portalIndex--;
+                } else {
+                    portalIndex = maxIndex;
+                }
+                updatePortalCarousel();
+            });
+        }
+
+        if (btnPortalNext) {
+            btnPortalNext.addEventListener('click', () => {
+                const track = document.getElementById('portal-carousel-track');
+                if (!track) return;
+                const cards = track.querySelectorAll('.game-select-card');
+                
+                let visibleCount = 3;
+                if (window.innerWidth <= 600) visibleCount = 1;
+                else if (window.innerWidth <= 900) visibleCount = 2;
+
+                const maxIndex = cards.length - visibleCount;
+                if (portalIndex < maxIndex) {
+                    portalIndex++;
+                } else {
+                    portalIndex = 0;
+                }
+                updatePortalCarousel();
+            });
+        }
+
+        window.addEventListener('resize', updatePortalCarousel);
+        window.addEventListener('load', updatePortalCarousel);
+
+        function enterGameShop(gameKey) {
+            activeGameFilter = gameKey;
+            currentShopMode = 'deals';
+            
+            btnModeDeals.classList.add('active');
+            btnModeRewards.classList.remove('active');
+
+            const info = GAME_SHOP_INFO[gameKey];
+            if (info) {
+                storeGameTitle.textContent = info.title;
+                storeGameDesc.textContent = info.desc;
+            }
+
+            selectionPortal.style.display = 'none';
+            activeStoreContainer.style.display = 'block';
+            
+            renderActiveCatalog();
+        }
+
+        function exitGameShop() {
+            activeGameFilter = null;
+            activeStoreContainer.style.display = 'none';
+            selectionPortal.style.display = 'block';
+            setTimeout(updatePortalCarousel, 50); // Recalculate layout widths on return
+        }
+
+        function renderActiveCatalog() {
+            if (!activeGameFilter) return;
+            if (currentShopMode === 'deals') {
+                renderShopItems(activeGameFilter);
+            } else {
+                renderPointsRewards(activeGameFilter);
+            }
+        }
+
+        function renderShopItems(gameKey) {
+            const container = document.getElementById('shop-items-container');
+            container.textContent = '';
+            
+            const deals = shopDeals[gameKey];
+            deals.forEach(deal => {
+                const card = document.createElement('div');
+                card.className = 'shop-card';
+                card.setAttribute('data-game', gameKey);
+                
+                const media = document.createElement('div');
+                media.className = 'shop-card-media';
+                
+                const badge = document.createElement('span');
+                badge.className = 'shop-card-badge';
+                badge.textContent = deal.badge;
+                
+                const graphic = document.createElement('div');
+                graphic.className = 'shop-card-graphic';
+                graphic.textContent = deal.graphic;
+                
+                media.appendChild(badge);
+                media.appendChild(graphic);
+                
+                const info = document.createElement('div');
+                info.className = 'shop-card-info';
+                
+                const title = document.createElement('h3');
+                title.className = 'shop-card-title';
+                title.textContent = deal.title;
+                
+                const desc = document.createElement('p');
+                desc.className = 'shop-card-description';
+                desc.textContent = deal.desc;
+                
+                const footer = document.createElement('div');
+                footer.className = 'shop-card-footer';
+                
+                const priceContainer = document.createElement('div');
+                priceContainer.style.display = 'flex';
+                priceContainer.style.flexDirection = 'column';
+                
+                const price = document.createElement('span');
+                price.className = 'shop-card-price';
+                price.textContent = `$${deal.price.toFixed(2)}`;
+                
+                const pointsBonusObj = calculatePoints(deal.price);
+                const earnsEl = document.createElement('span');
+                earnsEl.style.fontSize = '0.72rem';
+                earnsEl.style.color = 'var(--text-secondary)';
+                earnsEl.style.marginTop = '0.1rem';
+                earnsEl.innerHTML = `Earns ${SVG_ICONS.coin} ${pointsBonusObj.total.toLocaleString()} pts`;
+                
+                priceContainer.appendChild(price);
+                priceContainer.appendChild(earnsEl);
+                
+                const buyBtn = document.createElement('button');
+                buyBtn.className = 'btn-buy';
+                buyBtn.textContent = 'Buy Deal';
+                buyBtn.addEventListener('click', () => {
+                    handleBuyClick(deal, gameKey);
+                });
+                
+                footer.appendChild(priceContainer);
+                footer.appendChild(buyBtn);
+                
+                info.appendChild(title);
+                info.appendChild(desc);
+                info.appendChild(footer);
+                
+                card.appendChild(media);
+                card.appendChild(info);
+                
+                container.appendChild(card);
+            });
+        }
+
+        function renderPointsRewards(gameKey) {
+            const container = document.getElementById('shop-items-container');
+            container.textContent = '';
+            
+            const rewards = pointRewards[gameKey];
+            rewards.forEach(reward => {
+                const card = document.createElement('div');
+                card.className = 'shop-card';
+                card.setAttribute('data-game', gameKey);
+                
+                const media = document.createElement('div');
+                media.className = 'shop-card-media';
+                
+                const badge = document.createElement('span');
+                badge.className = 'shop-card-badge';
+                badge.textContent = reward.badge;
+                
+                const graphic = document.createElement('div');
+                graphic.className = 'shop-card-graphic';
+                graphic.textContent = reward.graphic;
+                
+                media.appendChild(badge);
+                media.appendChild(graphic);
+                
+                const info = document.createElement('div');
+                info.className = 'shop-card-info';
+                
+                const title = document.createElement('h3');
+                title.className = 'shop-card-title';
+                title.textContent = reward.title;
+                
+                const desc = document.createElement('p');
+                desc.className = 'shop-card-description';
+                desc.textContent = reward.desc;
+                
+                const footer = document.createElement('div');
+                footer.className = 'shop-card-footer';
+                
+                const pointsDisplay = document.createElement('span');
+                pointsDisplay.className = 'shop-card-price shop-card-points';
+                pointsDisplay.innerHTML = `${SVG_ICONS.coin} ${reward.points.toLocaleString()} pts`;
+                
+                const redeemBtn = document.createElement('button');
+                redeemBtn.className = 'btn-redeem';
+                redeemBtn.textContent = 'Redeem Free';
+                redeemBtn.addEventListener('click', () => {
+                    handleRedeemClick(reward, gameKey);
+                });
+                
+                footer.appendChild(pointsDisplay);
+                footer.appendChild(redeemBtn);
+                
+                info.appendChild(title);
+                info.appendChild(desc);
+                info.appendChild(footer);
+                
+                card.appendChild(media);
+                card.appendChild(info);
+                
+                container.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // POINTS REDEMPTION FLOW
+        // ==========================================
+        function handleRedeemClick(reward, gameKey) {
+            currentUser = getSessionUser();
+            if (!currentUser) return;
+
+            const currentPoints = currentUser.points || 0;
+            if (currentPoints < reward.points) {
+                showToast(`Insufficient points! You need ${(reward.points - currentPoints).toLocaleString()} more.`, "error");
+                return;
+            }
+
+            const accounts = getAccounts();
+            const userKey = currentUser.email.toLowerCase().trim();
+            
+            accounts[userKey].points = currentPoints - reward.points;
+            
+            if (!accounts[userKey].inventory) {
+                accounts[userKey].inventory = [];
+            }
+            
+            const txnId = 'TXN-' + Math.floor(10000000 + Math.random() * 90000000);
+            
+            accounts[userKey].inventory.push({
+                id: reward.id,
+                title: `${reward.title} (Redeemed)`,
+                price: 0,
+                graphic: reward.graphic,
+                game: gameKey,
+                purchaseDate: new Date().toISOString(),
+                method: 'Points Shop',
+                txnId: txnId
+            });
+
+            saveAccounts(accounts);
+            showToast(`Successfully redeemed ${reward.title}!`, "success");
+            
+            updateAuthHUD();
+            if (profileModal.classList.contains('active')) {
+                drawProfileTab();
+            }
+            renderActiveCatalog();
+        }
+
+        // ==========================================
+        // TRANSACTION CHECKOUT AND MOCK BANK
+        // ==========================================
+        let activeCheckoutDeal = null;
+        let activeCheckoutGame = null;
+
+        const checkoutModal = document.getElementById('checkout-modal');
+        const checkoutTabPaypal = document.getElementById('checkout-tab-paypal');
+        const checkoutTabCard = document.getElementById('checkout-tab-card');
+        const checkoutTabGpay = document.getElementById('checkout-tab-gpay');
+        const checkoutTabApple = document.getElementById('checkout-tab-apple');
+        const checkoutTabIdeal = document.getElementById('checkout-tab-ideal');
+
+        const sectionPaypal = document.getElementById('section-paypal');
+        const sectionCard = document.getElementById('section-card');
+        const sectionGpay = document.getElementById('section-gpay');
+        const sectionApple = document.getElementById('section-apple');
+        const sectionIdeal = document.getElementById('section-ideal');
+
+        const paymentLoading = document.getElementById('payment-loading');
+
+        const tabsMap = [
+            { tab: checkoutTabPaypal, section: sectionPaypal },
+            { tab: checkoutTabCard, section: sectionCard },
+            { tab: checkoutTabGpay, section: sectionGpay },
+            { tab: checkoutTabApple, section: sectionApple },
+            { tab: checkoutTabIdeal, section: sectionIdeal }
+        ];
+
+        function handleBuyClick(deal, gameKey) {
+            currentUser = getSessionUser();
+            if (!currentUser) {
+                showToast("Please sign in or register to purchase items.", "error");
+                openAuthModal('signin');
+                return;
+            }
+
+            // Check if item is already in cart
+            const alreadyInCart = cart.some(item => item.id === deal.id);
+            if (alreadyInCart) {
+                showToast(`"${deal.title}" is already in your cart!`, "info");
+                openCartDrawer();
+                return;
+            }
+
+            // Add item to cart
+            cart.push({
+                id: deal.id,
+                title: deal.title,
+                price: deal.price,
+                graphic: deal.graphic,
+                game: gameKey,
+                badge: deal.badge
+            });
+
+            showToast(`Added "${deal.title}" to cart.`, "success");
+            renderCart();
+            openCartDrawer();
+        }
+
+        function openCheckoutModal() {
+            // Hide all payment sections first
+            tabsMap.forEach(i => {
+                if (i.tab) i.tab.classList.remove('active');
+                if (i.section) {
+                    i.section.classList.remove('active');
+                    i.section.style.display = 'none';
+                }
+            });
+
+            // Set PayPal active by default
+            checkoutTabPaypal.classList.add('active');
+            sectionPaypal.classList.add('active');
+            sectionPaypal.style.display = 'block';
+
+            paymentLoading.style.display = 'none';
+            
+            document.getElementById('paypal-email').value = '';
+            document.getElementById('paypal-password').value = '';
+            document.getElementById('card-name').value = '';
+            document.getElementById('card-number').value = '';
+            document.getElementById('card-expiry').value = '';
+            document.getElementById('card-cvv').value = '';
+            const idealBank = document.getElementById('ideal-bank');
+            if (idealBank) idealBank.selectedIndex = 0;
+            
+            // Update all price labels dynamically
+            document.querySelectorAll('.checkout-price-label').forEach(span => {
+                span.textContent = `$${activeCheckoutTotalPrice.toFixed(2)}`;
+            });
+            
+            clearCheckoutErrors();
+            checkoutModal.classList.add('active');
+        }
+
+        function closeCheckoutModal() {
+            checkoutModal.classList.remove('active');
+            activeCheckoutDeal = null;
+            activeCheckoutGame = null;
+        }
+
+        function clearCheckoutErrors() {
+            document.getElementById('error-paypal-email').textContent = '';
+            document.getElementById('error-paypal-email').style.display = 'none';
+            document.getElementById('error-paypal-password').textContent = '';
+            
+            document.getElementById('error-card-number').textContent = '';
+            document.getElementById('error-card-number').style.display = 'none';
+            document.getElementById('error-card-expiry').textContent = '';
+            document.getElementById('error-card-expiry').style.display = 'none';
+            document.getElementById('error-card-cvv').textContent = '';
+            document.getElementById('error-card-cvv').style.display = 'none';
+            
+            const errorIdealBank = document.getElementById('error-ideal-bank');
+            if (errorIdealBank) {
+                errorIdealBank.textContent = '';
+                errorIdealBank.style.display = 'none';
+            }
+        }
+
+        document.getElementById('btn-close-checkout').addEventListener('click', closeCheckoutModal);
+
+        // Generalize tab switching
+        tabsMap.forEach(item => {
+            if (item.tab) {
+                item.tab.addEventListener('click', () => {
+                    tabsMap.forEach(i => {
+                        if (i.tab) i.tab.classList.remove('active');
+                        if (i.section) {
+                            i.section.classList.remove('active');
+                            i.section.style.display = 'none';
+                        }
+                    });
+                    item.tab.classList.add('active');
+                    if (item.section) {
+                        item.section.classList.add('active');
+                        item.section.style.display = 'block';
+                    }
+                });
+            }
+        });
+
+        document.getElementById('card-expiry').addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 2) {
+                e.target.value = val.substring(0, 2) + '/' + val.substring(2, 4);
+            } else {
+                e.target.value = val;
+            }
+        });
+        
+        document.getElementById('card-number').addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            let formatted = [];
+            for (let i = 0; i < val.length; i += 4) {
+                formatted.push(val.substring(i, i + 4));
+            }
+            e.target.value = formatted.join(' ').substring(0, 19);
+        });
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!re.test(email)) return "Invalid email address format.";
+            return null;
+        }
+
+        let activeCheckoutTotalPrice = 0;
+
+        async function completeMockPurchase(methodName) {
+            tabsMap.forEach(i => {
+                if (i.section) i.section.style.display = 'none';
+            });
+            paymentLoading.style.display = 'flex';
+            
+            // Simulate payment delay
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            
+            currentUser = getSessionUser();
+            if (!currentUser || (cart.length === 0 && !activeCheckoutDeal)) {
+                closeCheckoutModal();
+                showToast("Transaction aborted. Session not active or cart empty.", "error");
+                return;
+            }
+            
+            const accounts = getAccounts();
+            const userKey = currentUser.email.toLowerCase().trim();
+            
+            if (!accounts[userKey].inventory) {
+                accounts[userKey].inventory = [];
+            }
+            
+            const method = methodName || 'Credit Card';
+            const txnId = 'TXN-' + Math.floor(10000000 + Math.random() * 90000000);
+            
+            let totalCost = 0;
+            let totalPointsEarned = 0;
+            let itemTitles = [];
+            
+            if (activeCheckoutDeal) {
+                // Direct Checkout (e.g. single item fallback)
+                const pointBreakdown = calculatePoints(activeCheckoutDeal.price);
+                totalPointsEarned = pointBreakdown.total;
+                totalCost = activeCheckoutDeal.price;
+                itemTitles.push(activeCheckoutDeal.title);
+                
+                accounts[userKey].inventory.push({
+                    id: activeCheckoutDeal.id,
+                    title: activeCheckoutDeal.title,
+                    price: activeCheckoutDeal.price,
+                    graphic: activeCheckoutDeal.graphic,
+                    game: activeCheckoutGame,
+                    purchaseDate: new Date().toISOString(),
+                    method: method,
+                    txnId: txnId
+                });
+            } else {
+                // Cart Checkout
+                let subtotal = 0;
+                cart.forEach(item => {
+                    subtotal += item.price;
+                });
+                
+                let discountAmount = 0;
+                if (activeCoupon) {
+                    discountAmount = subtotal * activeCoupon.rate;
+                }
+                totalCost = subtotal - discountAmount;
+                
+                // Calculate points based on final total discounted cost
+                const pointBreakdown = calculatePoints(totalCost);
+                totalPointsEarned = pointBreakdown.total;
+                
+                cart.forEach(item => {
+                    itemTitles.push(item.title);
+                    
+                    // Apportion price after coupon discount to items for billing invoices
+                    const itemShare = subtotal > 0 ? (item.price / subtotal) : 0;
+                    const finalItemPrice = item.price - (discountAmount * itemShare);
+                    
+                    accounts[userKey].inventory.push({
+                        id: item.id,
+                        title: item.title,
+                        price: finalItemPrice,
+                        graphic: item.graphic,
+                        game: item.game,
+                        purchaseDate: new Date().toISOString(),
+                        method: method,
+                        txnId: txnId
+                    });
+                });
+            }
+            
+            const userPoints = accounts[userKey].points || 0;
+            accounts[userKey].points = userPoints + totalPointsEarned;
+            
+            saveAccounts(accounts);
+            closeCheckoutModal();
+            
+            // Clear cart and reset coupons on successful cart transaction
+            if (!activeCheckoutDeal) {
+                cart = [];
+                activeCoupon = null;
+                if (inputCoupon) inputCoupon.value = '';
+                if (couponStatus) couponStatus.textContent = '';
+                renderCart();
+            }
+            
+            let pointsMessage = `Earned ${totalPointsEarned.toLocaleString()} Points!`;
+            showToast("Purchase success! " + pointsMessage, "success");
+            
+            updateAuthHUD();
+            if (profileModal.classList.contains('active')) {
+                drawProfileTab();
+            }
+            renderActiveCatalog();
+        }
+
+        document.getElementById('form-paypal').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('paypal-email').value;
+            const password = document.getElementById('paypal-password').value;
+            
+            if (!email || !password) return;
+            
+            const errEmail = validateEmail(email);
+            if (errEmail) {
+                document.getElementById('error-paypal-email').textContent = errEmail;
+                document.getElementById('error-paypal-email').style.display = 'block';
+                return;
+            }
+            
+            completeMockPurchase('PayPal');
+        });
+
+        document.getElementById('form-card').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const number = document.getElementById('card-number').value.replace(/\s+/g, '');
+            const expiry = document.getElementById('card-expiry').value;
+            const cvv = document.getElementById('card-cvv').value;
+            
+            let hasError = false;
+            document.getElementById('error-card-number').textContent = '';
+            document.getElementById('error-card-expiry').textContent = '';
+            document.getElementById('error-card-cvv').textContent = '';
+            
+            if (!/^\d{16}$/.test(number)) {
+                document.getElementById('error-card-number').textContent = "Invalid card number (must be 16 digits).";
+                document.getElementById('error-card-number').style.display = 'block';
+                hasError = true;
+            }
+            if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+                document.getElementById('error-card-expiry').textContent = "Format must be MM/YY.";
+                document.getElementById('error-card-expiry').style.display = 'block';
+                hasError = true;
+            }
+            if (!/^\d{3,4}$/.test(cvv)) {
+                document.getElementById('error-card-cvv').textContent = "Invalid CVV (must be 3 or 4 digits).";
+                document.getElementById('error-card-cvv').style.display = 'block';
+                hasError = true;
+            }
+            
+            if (hasError) return;
+            completeMockPurchase('Credit Card');
+        });
+
+        // Google Pay Payment Submission
+        document.getElementById('btn-gpay-submit').addEventListener('click', (e) => {
+            e.preventDefault();
+            completeMockPurchase('Google Pay');
+        });
+
+        // Apple Pay Payment Submission
+        document.getElementById('btn-apple-submit').addEventListener('click', (e) => {
+            e.preventDefault();
+            completeMockPurchase('Apple Pay');
+        });
+
+        // iDEAL Payment Submission
+        document.getElementById('form-ideal').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const bankSelect = document.getElementById('ideal-bank');
+            const selectedBank = bankSelect.value;
+            const errorIdealBank = document.getElementById('error-ideal-bank');
+            
+            if (!selectedBank) {
+                errorIdealBank.textContent = "Please select your bank.";
+                errorIdealBank.style.display = 'block';
+                return;
+            }
+            errorIdealBank.textContent = "";
+            errorIdealBank.style.display = 'none';
+            completeMockPurchase(`iDEAL (${selectedBank})`);
+        });
+
+        // ==========================================
+        // PROFILE DASHBOARD TAB CONTROL & UI RENDERING
+        // ==========================================
+        const profileModal = document.getElementById('profile-modal');
+        const btnViewProfile = document.getElementById('btn-view-profile');
+        const btnCloseProfile = document.getElementById('btn-close-profile');
+        let activeProfileTab = 'overview';
+
+        function bindDropdownShortcuts(elId, tabName) {
+            const btn = document.getElementById(elId);
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    const user = getSessionUser();
+                    if (user) {
+                        switchProfileTab(tabName);
+                        profileModal.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        bindDropdownShortcuts('btn-dropdown-overview', 'overview');
+        bindDropdownShortcuts('btn-dropdown-inventory', 'inventory');
+        bindDropdownShortcuts('btn-dropdown-friends', 'friends');
+        bindDropdownShortcuts('btn-dropdown-achievements', 'achievements');
+
+        btnCloseProfile.addEventListener('click', () => {
+            profileModal.classList.remove('active');
+        });
+
+        function initProfileTabs() {
+            const navItems = document.querySelectorAll('.profile-nav-item');
+            navItems.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const tab = e.currentTarget.getAttribute('data-tab');
+                    switchProfileTab(tab);
+                });
+            });
+        }
+
+        function switchProfileTab(tabName) {
+            activeProfileTab = tabName;
+            const navItems = document.querySelectorAll('.profile-nav-item');
+            navItems.forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            drawProfileTab();
+        }
+
+        function drawProfileTab() {
+            const user = getSessionUser();
+            if (!user) return;
+            
+            const avatar = document.getElementById('profile-avatar');
+            const username = document.getElementById('profile-username');
+            const badge = document.getElementById('profile-badge');
+            
+            if (user.avatarUrl) {
+                avatar.innerHTML = `<img src="${user.avatarUrl}" class="profile-sidebar-avatar-img" alt="User Avatar" referrerPolicy="no-referrer">`;
+            } else {
+                avatar.textContent = user.username.charAt(0).toUpperCase();
+            }
+            username.textContent = user.username;
+            
+            if (user.email && user.email.toLowerCase() === 'admin@realmlink.com') {
+                badge.textContent = 'Admin';
+                badge.classList.add('admin-badge');
+            } else {
+                badge.textContent = 'Member';
+                badge.classList.remove('admin-badge');
+            }
+            
+            const contentArea = document.getElementById('profile-content-area');
+            contentArea.textContent = '';
+            
+            if (activeProfileTab === 'overview') {
+                drawOverviewTab(user, contentArea);
+            } else if (activeProfileTab === 'inventory') {
+                drawInventoryTab(user, contentArea);
+            } else if (activeProfileTab === 'billing') {
+                drawBillingTab(user, contentArea);
+            } else if (activeProfileTab === 'friends') {
+                drawFriendsTab(user, contentArea);
+            } else if (activeProfileTab === 'achievements') {
+                drawAchievementsTab(user, contentArea);
+            }
+        }
+
+        function drawOverviewTab(user, container) {
+            const grid = document.createElement('div');
+            grid.className = 'overview-grid';
+            
+            const statsCard = document.createElement('div');
+            statsCard.className = 'profile-card';
+            
+            const statsTitle = document.createElement('span');
+            statsTitle.className = 'profile-card-title';
+            statsTitle.textContent = 'User Overview';
+            statsCard.appendChild(statsTitle);
+            
+            const idRow = document.createElement('div');
+            idRow.style.margin = '0.5rem 0';
+            idRow.style.fontSize = '0.9rem';
+            idRow.style.color = 'var(--text-secondary)';
+            
+            const idLabel = document.createElement('strong');
+            idLabel.textContent = 'Account ID: ';
+            idLabel.style.color = 'var(--text-primary)';
+            
+            const idVal = document.createTextNode(user.userId || 'RL-00000');
+            idRow.appendChild(idLabel);
+            idRow.appendChild(idVal);
+            statsCard.appendChild(idRow);
+            
+            const level = Math.floor((user.points || 0) / 1000) + 1;
+            const xp = (user.points || 0) % 1000;
+            
+            const lvlRow = document.createElement('div');
+            lvlRow.style.display = 'flex';
+            lvlRow.style.justifyContent = 'space-between';
+            lvlRow.style.alignItems = 'baseline';
+            lvlRow.style.marginTop = '0.5rem';
+            
+            const lvlLabel = document.createElement('span');
+            lvlLabel.textContent = `Level ${level}`;
+            lvlLabel.style.fontWeight = '800';
+            lvlLabel.style.fontSize = '1.25rem';
+            lvlLabel.style.color = 'var(--accent-blue-light)';
+            
+            const xpText = document.createElement('span');
+            xpText.textContent = `${xp} / 1000 XP`;
+            xpText.style.fontSize = '0.8rem';
+            xpText.style.color = 'var(--text-muted)';
+            
+            lvlRow.appendChild(lvlLabel);
+            lvlRow.appendChild(xpText);
+            statsCard.appendChild(lvlRow);
+            
+            const xpBarContainer = document.createElement('div');
+            xpBarContainer.className = 'xp-bar-container';
+            
+            const xpBarFill = document.createElement('div');
+            xpBarFill.className = 'xp-bar-fill';
+            xpBarFill.style.width = `${(xp / 1000) * 100}%`;
+            
+            xpBarContainer.appendChild(xpBarFill);
+            statsCard.appendChild(xpBarContainer);
+            
+            const ptsText = document.createElement('div');
+            ptsText.style.fontSize = '0.8rem';
+            ptsText.style.color = 'var(--text-secondary)';
+            ptsText.style.marginTop = '0.5rem';
+            ptsText.innerHTML = `Total Points Earned: ${SVG_ICONS.coin} ${(user.points || 0).toLocaleString()}`;
+            statsCard.appendChild(ptsText);
+            
+            grid.appendChild(statsCard);
+            
+            const activityCard = document.createElement('div');
+            activityCard.className = 'profile-card';
+            
+            const actTitle = document.createElement('span');
+            actTitle.className = 'profile-card-title';
+            actTitle.textContent = 'Game Activity';
+            activityCard.appendChild(actTitle);
+            
+            const activityList = document.createElement('div');
+            activityList.style.display = 'flex';
+            activityList.style.flexDirection = 'column';
+            activityList.style.gap = '0.75rem';
+            activityList.style.marginTop = '0.5rem';
+            
+            const games = [
+                { id: 'planet-plunder', name: 'Planet Plunder', icon: SVG_ICONS['planet-plunder'] || '🚀', hours: user.gameActivity['planet-plunder'] || 0 },
+                { id: 'spell-controller', name: 'Spell Controller', icon: SVG_ICONS['spell-controller'] || '🪄', hours: user.gameActivity['spell-controller'] || 0 },
+                { id: 'neon-racer', name: 'Neon Racer', icon: SVG_ICONS['neon-racer'] || '🏎️', hours: user.gameActivity['neon-racer'] || 0 },
+                { id: 'shadow-blade', name: 'Shadow Blade', icon: SVG_ICONS['shadow-blade'] || '⚔️', hours: user.gameActivity['shadow-blade'] || 0 },
+                { id: 'eco-builder', name: 'Eco Builder', icon: SVG_ICONS['eco-builder'] || '🪐', hours: user.gameActivity['eco-builder'] || 0 },
+                { id: 'spell-craft', name: 'Spell Craft', icon: SVG_ICONS['spell-craft'] || '🏰', hours: user.gameActivity['spell-craft'] || 0 }
+            ];
+            
+            games.forEach(game => {
+                const row = document.createElement('div');
+                row.className = 'game-activity-row';
+                
+                const gameName = document.createElement('span');
+                gameName.innerHTML = `${game.icon} ${game.name}`;
+                gameName.style.fontWeight = '600';
+                gameName.style.fontSize = '0.9rem';
+                gameName.style.display = 'inline-flex';
+                gameName.style.alignItems = 'center';
+                gameName.style.gap = '0.5rem';
+                
+                const gameHours = document.createElement('span');
+                gameHours.textContent = `${game.hours} hrs`;
+                gameHours.style.fontSize = '0.85rem';
+                gameHours.style.color = 'var(--text-secondary)';
+                
+                row.appendChild(gameName);
+                row.appendChild(gameHours);
+                activityList.appendChild(row);
+            });
+            
+            activityCard.appendChild(activityList);
+            grid.appendChild(activityCard);
+            
+            container.appendChild(grid);
+        }
+
+        function drawInventoryTab(user, container) {
+            const h3 = document.createElement('h3');
+            h3.style.marginBottom = '0.5rem';
+            h3.style.fontWeight = '800';
+            h3.style.fontSize = '1.3rem';
+            h3.textContent = '🎒 My Inventory';
+            container.appendChild(h3);
+            
+            const desc = document.createElement('p');
+            desc.style.color = 'var(--text-secondary)';
+            desc.style.marginBottom = '1.5rem';
+            desc.style.fontSize = '0.85rem';
+            desc.textContent = 'Cosmetics, upgrades, and item packs you have unlocked or purchased.';
+            container.appendChild(desc);
+            
+            const listContainer = document.createElement('div');
+            listContainer.className = 'inventory-list';
+            listContainer.style.maxHeight = 'none';
+            
+            if (!user.inventory || user.inventory.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'inventory-empty';
+                empty.textContent = 'No purchased items yet. Start shopping!';
+                listContainer.appendChild(empty);
+            } else {
+                user.inventory.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'inventory-item';
+                    
+                    const details = document.createElement('div');
+                    details.className = 'inventory-item-details';
+                    
+                    const nameEl = document.createElement('span');
+                    nameEl.className = 'inventory-item-name';
+                    nameEl.textContent = `${item.graphic || '📦'} ${item.title}`;
+                    
+                    const gameEl = document.createElement('span');
+                    gameEl.className = `inventory-item-game ${item.game === 'spell-controller' ? 'spell-game' : ''}`;
+                    const gameNames = {
+                        'planet-plunder': 'Planet Plunder',
+                        'spell-controller': 'Spell Controller',
+                        'neon-racer': 'Neon Racer',
+                        'shadow-blade': 'Shadow Blade',
+                        'eco-builder': 'Eco Builder',
+                        'spell-craft': 'Spell Craft'
+                    };
+                    gameEl.textContent = gameNames[item.game] || item.game;
+                    
+                    details.appendChild(nameEl);
+                    details.appendChild(gameEl);
+                    
+                    const priceEl = document.createElement('span');
+                    priceEl.style.fontWeight = 'bold';
+                    priceEl.textContent = item.price > 0 ? `$${item.price.toFixed(2)}` : 'FREE (Redeemed)';
+                    
+                    div.appendChild(details);
+                    div.appendChild(priceEl);
+                    listContainer.appendChild(div);
+                });
+            }
+            container.appendChild(listContainer);
+        }
+
+        function drawBillingTab(user, container) {
+            const h3 = document.createElement('h3');
+            h3.style.marginBottom = '0.5rem';
+            h3.style.fontWeight = '800';
+            h3.style.fontSize = '1.3rem';
+            h3.textContent = '💳 Billing & Transactions';
+            container.appendChild(h3);
+            
+            const desc = document.createElement('p');
+            desc.style.color = 'var(--text-secondary)';
+            desc.style.marginBottom = '1.5rem';
+            desc.style.fontSize = '0.85rem';
+            desc.textContent = 'Review your direct purchases and points shop redemptions below.';
+            container.appendChild(desc);
+            
+            const transactions = (user.inventory || []).filter(item => item.purchaseDate);
+            
+            if (transactions.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'inventory-empty';
+                empty.textContent = 'No transaction receipts found.';
+                container.appendChild(empty);
+                return;
+            }
+            
+            const tableWrapper = document.createElement('div');
+            tableWrapper.style.overflowX = 'auto';
+            
+            const table = document.createElement('table');
+            table.className = 'billing-table';
+            
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            ['Order ID', 'Item / Reward', 'Method', 'Cost', 'Date'].forEach(text => {
+                const th = document.createElement('th');
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            const tbody = document.createElement('tbody');
+            const sortedTxns = [...transactions].sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
+            
+            sortedTxns.forEach(item => {
+                const tr = document.createElement('tr');
+                
+                let txnId = item.txnId;
+                if (!txnId) {
+                    let hash = 0;
+                    const str = (item.purchaseDate || '') + (item.title || '');
+                    for (let i = 0; i < str.length; i++) {
+                        hash = (hash << 5) - hash + str.charCodeAt(i);
+                        hash |= 0;
+                    }
+                    txnId = 'TXN-' + Math.abs(hash).toString().substring(0, 8).padEnd(8, '0');
+                }
+                
+                let method = item.method;
+                if (!method) {
+                    if (item.price === 0 || (item.title && item.title.includes('Redeemed'))) {
+                        method = 'Points Shop';
+                    } else {
+                        method = 'Credit Card';
+                    }
+                }
+                
+                const tdId = document.createElement('td');
+                tdId.textContent = txnId;
+                tdId.style.fontFamily = 'monospace';
+                tdId.style.color = 'var(--text-muted)';
+                
+                const tdTitle = document.createElement('td');
+                tdTitle.textContent = `${item.graphic || '📦'} ${item.title}`;
+                tdTitle.style.fontWeight = '600';
+                
+                const tdMethod = document.createElement('td');
+                tdMethod.textContent = method;
+                
+                const tdCost = document.createElement('td');
+                tdCost.textContent = item.price > 0 ? `$${item.price.toFixed(2)}` : 'FREE';
+                tdCost.style.fontWeight = 'bold';
+                if (item.price > 0) {
+                    tdCost.style.color = 'hsl(140, 80%, 45%)';
+                } else {
+                    tdCost.style.color = 'var(--text-muted)';
+                }
+                
+                const tdDate = document.createElement('td');
+                let dateStr = 'Unknown';
+                if (item.purchaseDate) {
+                    try {
+                        const d = new Date(item.purchaseDate);
+                        dateStr = d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                    } catch (err) {}
+                }
+                tdDate.textContent = dateStr;
+                tdDate.style.color = 'var(--text-secondary)';
+                
+                tr.appendChild(tdId);
+                tr.appendChild(tdTitle);
+                tr.appendChild(tdMethod);
+                tr.appendChild(tdCost);
+                tr.appendChild(tdDate);
+                
+                tbody.appendChild(tr);
+            });
+            
+            table.appendChild(tbody);
+            tableWrapper.appendChild(table);
+            container.appendChild(tableWrapper);
+        }
+
+        function drawFriendsTab(user, container) {
+            const h3 = document.createElement('h3');
+            h3.style.marginBottom = '0.5rem';
+            h3.style.fontWeight = '800';
+            h3.style.fontSize = '1.3rem';
+            h3.textContent = '👥 Friends Hub';
+            container.appendChild(h3);
+            
+            const desc = document.createElement('p');
+            desc.style.color = 'var(--text-secondary)';
+            desc.style.marginBottom = '1.25rem';
+            desc.style.fontSize = '0.85rem';
+            desc.textContent = 'Connect with other gamers, view their online status, or manage your list.';
+            container.appendChild(desc);
+            
+            const formWrapper = document.createElement('div');
+            formWrapper.className = 'friends-input-wrapper';
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'friend-username-input';
+            input.className = 'form-input';
+            input.placeholder = 'Enter username (e.g. PixelGlitch)';
+            input.style.flex = '1';
+            
+            const addBtn = document.createElement('button');
+            addBtn.className = 'btn-buy';
+            addBtn.style.padding = '0.75rem 1.5rem';
+            addBtn.textContent = 'Add Friend';
+            
+            addBtn.addEventListener('click', () => {
+                const val = input.value.trim();
+                if (val) {
+                    handleAddFriend(val);
+                } else {
+                    showToast('Please enter a valid username.', 'error');
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addBtn.click();
+                }
+            });
+            
+            formWrapper.appendChild(input);
+            formWrapper.appendChild(addBtn);
+            container.appendChild(formWrapper);
+            
+            const listTitle = document.createElement('h4');
+            listTitle.style.marginBottom = '0.75rem';
+            listTitle.style.fontSize = '1rem';
+            listTitle.style.fontWeight = '700';
+            listTitle.textContent = `My Friends (${(user.friends || []).length})`;
+            container.appendChild(listTitle);
+            
+            const listContainer = document.createElement('div');
+            listContainer.className = 'friends-list';
+            
+            if (!user.friends || user.friends.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'inventory-empty';
+                empty.textContent = 'Your friends list is currently empty. Add someone above!';
+                listContainer.appendChild(empty);
+            } else {
+                user.friends.forEach(friend => {
+                    const item = document.createElement('div');
+                    item.className = 'friend-item';
+                    
+                    const leftSide = document.createElement('div');
+                    leftSide.style.display = 'flex';
+                    leftSide.style.alignItems = 'center';
+                    
+                    const statusDot = document.createElement('span');
+                    statusDot.className = `friend-status ${friend.status === 'online' ? 'online' : 'offline'}`;
+                    
+                    const nameSpan = document.createElement('span');
+                    nameSpan.textContent = friend.name;
+                    nameSpan.style.fontWeight = '600';
+                    nameSpan.style.fontSize = '0.9rem';
+                    
+                    const statusLabel = document.createElement('span');
+                    statusLabel.textContent = ` (${friend.status})`;
+                    statusLabel.style.fontSize = '0.75rem';
+                    statusLabel.style.color = 'var(--text-muted)';
+                    
+                    leftSide.appendChild(statusDot);
+                    leftSide.appendChild(nameSpan);
+                    leftSide.appendChild(statusLabel);
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'btn-remove-friend';
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.addEventListener('click', () => {
+                        handleRemoveFriend(friend.name);
+                    });
+                    
+                    item.appendChild(leftSide);
+                    item.appendChild(removeBtn);
+                    listContainer.appendChild(item);
+                });
+            }
+            container.appendChild(listContainer);
+        }
+
+        function handleAddFriend(name) {
+            currentUser = getSessionUser();
+            if (!currentUser) return;
+            
+            const cleanName = name.replace(/[^A-Za-z0-9_ -]/g, '').substring(0, 20).trim();
+            if (!cleanName || cleanName.length < 3) {
+                showToast('Username must be at least 3 alphanumeric characters.', 'error');
+                return;
+            }
+            
+            const accounts = getAccounts();
+            const userKey = currentUser.email.toLowerCase().trim();
+            const friendsList = accounts[userKey].friends || [];
+            
+            const exists = friendsList.some(f => f.name.toLowerCase() === cleanName.toLowerCase());
+            if (exists) {
+                showToast(`${cleanName} is already on your friends list.`, 'error');
+                return;
+            }
+            
+            if (cleanName.toLowerCase() === currentUser.username.toLowerCase()) {
+                showToast("You cannot add yourself as a friend.", 'error');
+                return;
+            }
+            
+            const status = Math.random() > 0.4 ? 'online' : 'offline';
+            friendsList.push({ name: cleanName, status: status });
+            accounts[userKey].friends = friendsList;
+            
+            saveAccounts(accounts);
+            showToast(`${cleanName} added to friends list!`, 'success');
+            drawProfileTab();
+        }
+
+        function handleRemoveFriend(name) {
+            currentUser = getSessionUser();
+            if (!currentUser) return;
+            
+            const accounts = getAccounts();
+            const userKey = currentUser.email.toLowerCase().trim();
+            let friendsList = accounts[userKey].friends || [];
+            
+            const exists = friendsList.some(f => f.name === name);
+            if (!exists) return;
+            
+            friendsList = friendsList.filter(f => f.name !== name);
+            accounts[userKey].friends = friendsList;
+            
+            saveAccounts(accounts);
+            showToast(`${name} removed from friends list.`, 'info');
+            drawProfileTab();
+        }
+
+        function drawAchievementsTab(user, container) {
+            const h3 = document.createElement('h3');
+            h3.style.marginBottom = '0.5rem';
+            h3.style.fontWeight = '800';
+            h3.style.fontSize = '1.3rem';
+            h3.textContent = '🏆 Achievements & Medals';
+            container.appendChild(h3);
+            
+            const desc = document.createElement('p');
+            desc.style.color = 'var(--text-secondary)';
+            desc.style.marginBottom = '1.5rem';
+            desc.style.fontSize = '0.85rem';
+            desc.textContent = 'Complete milestones through store purchases and point earnings to unlock badges.';
+            container.appendChild(desc);
+            
+            const grid = document.createElement('div');
+            grid.className = 'achievements-grid';
+            
+            const level = Math.floor((user.points || 0) / 1000) + 1;
+            const itemsCount = (user.inventory || []).length;
+            const isAdmin = user.email && user.email.toLowerCase() === 'admin@realmlink.com';
+            
+            const badges = [
+                {
+                    title: 'First Deal',
+                    desc: 'Buy any store deal or redeem a free reward',
+                    icon: '🤝',
+                    unlocked: itemsCount >= 1
+                },
+                {
+                    title: 'Collector',
+                    desc: 'Own 3 or more shop items in inventory',
+                    icon: '👑',
+                    unlocked: itemsCount >= 3
+                },
+                {
+                    title: 'Ascended',
+                    desc: 'Reach Account Level 2 or higher',
+                    icon: '⭐',
+                    unlocked: level >= 2
+                },
+                {
+                    title: 'Realm Legend',
+                    desc: 'Attain VIP Status (Admin or Level 10+)',
+                    icon: '🏆',
+                    unlocked: isAdmin || level >= 10 || (user.points || 0) >= 10000
+                }
+            ];
+            
+            badges.forEach(badge => {
+                const card = document.createElement('div');
+                card.className = `achievement-card ${badge.unlocked ? 'unlocked' : ''}`;
+                
+                const icon = document.createElement('div');
+                icon.className = 'achievement-icon';
+                icon.textContent = badge.icon;
+                
+                const title = document.createElement('div');
+                title.className = 'achievement-title';
+                title.textContent = badge.title;
+                
+                const desc = document.createElement('div');
+                desc.className = 'achievement-desc';
+                desc.textContent = badge.desc;
+                
+                card.appendChild(icon);
+                card.appendChild(title);
+                card.appendChild(desc);
+                grid.appendChild(card);
+            });
+            
+            container.appendChild(grid);
+        }
+
+        // ==========================================
+        // USER LOGOUT DROPDOWNS AND HOOKS
+        // ==========================================
+        const userAvatarBtn = document.getElementById('user-avatar-btn');
+        const userDropdown = document.getElementById('user-dropdown');
+        const btnLogout = document.getElementById('btn-logout');
+        
+        userAvatarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('active');
+        });
+        
+        window.addEventListener('click', () => {
+            userDropdown.classList.remove('active');
+        });
+
+        btnLogout.addEventListener('click', () => {
+            setSessionUser(null);
+            showToast("You have been signed out.", "info");
+            // Redirect to index page since shop requires authentication
+            setTimeout(() => {
+                window.location.replace("index.html");
+            }, 1000);
+        });
+
+        // Keyboard override to prevent background page scroll during active modals
+        window.addEventListener('keydown', (e) => {
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                return;
+            }
+            const isModalOpen = (checkoutModal.classList.contains('active') || profileModal.classList.contains('active'));
+            if (isModalOpen) {
+                if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' ', 'Home', 'End'].includes(e.key)) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // ==========================================
+        // SHOPPING CART DRAWER LOGIC
+        // ==========================================
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartDrawerOverlay = document.getElementById('cart-drawer-overlay');
+        const btnOpenCart = document.getElementById('btn-open-cart');
+        const btnCloseCartDrawer = document.getElementById('btn-close-cart-drawer');
+        const cartIndicator = document.getElementById('cart-indicator');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const cartDiscountRow = document.getElementById('cart-discount-row');
+        const discountLabel = document.getElementById('discount-label');
+        const cartDiscount = document.getElementById('cart-discount');
+        const cartTotal = document.getElementById('cart-total');
+        const inputCoupon = document.getElementById('input-coupon');
+        const btnApplyCoupon = document.getElementById('btn-apply-coupon');
+        const couponStatus = document.getElementById('coupon-status');
+        const btnCartCheckout = document.getElementById('btn-cart-checkout');
+
+        function openCartDrawer() {
+            cartDrawer.classList.add('active');
+            cartDrawerOverlay.classList.add('active');
+        }
+
+        function closeCartDrawer() {
+            cartDrawer.classList.remove('active');
+            cartDrawerOverlay.classList.remove('active');
+        }
+
+        if (btnOpenCart) btnOpenCart.addEventListener('click', openCartDrawer);
+        if (btnCloseCartDrawer) btnCloseCartDrawer.addEventListener('click', closeCartDrawer);
+        if (cartDrawerOverlay) cartDrawerOverlay.addEventListener('click', closeCartDrawer);
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            showToast("Item removed from cart.", "info");
+            renderCart();
+        }
+
+        function applyCouponCode() {
+            const code = inputCoupon.value.trim().toUpperCase();
+            couponStatus.textContent = '';
+            couponStatus.className = 'coupon-status';
+
+            if (!code) {
+                activeCoupon = null;
+                updateCartTotals();
+                return;
+            }
+
+            if (code === 'START2026') {
+                activeCoupon = { code: 'START2026', rate: 0.20 };
+                couponStatus.textContent = 'Coupon "START2026" applied: 20% Discount!';
+                couponStatus.className = 'coupon-status success';
+                showToast('Coupon "START2026" successfully applied!', 'success');
+            } else if (code === 'STUDENT') {
+                activeCoupon = { code: 'STUDENT', rate: 0.15 };
+                couponStatus.textContent = 'Coupon "STUDENT" applied: 15% Discount!';
+                couponStatus.className = 'coupon-status success';
+                showToast('Coupon "STUDENT" successfully applied!', 'success');
+            } else {
+                activeCoupon = null;
+                couponStatus.textContent = 'Invalid coupon code.';
+                couponStatus.className = 'coupon-status error';
+                showToast('Invalid coupon code.', 'error');
+            }
+
+            updateCartTotals();
+        }
+
+        if (btnApplyCoupon) {
+            btnApplyCoupon.addEventListener('click', applyCouponCode);
+        }
+
+        if (inputCoupon) {
+            inputCoupon.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applyCouponCode();
+                }
+            });
+        }
+
+        function updateCartTotals() {
+            // Cart count indicator
+            if (cartIndicator) {
+                cartIndicator.textContent = cart.length;
+            }
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price;
+            });
+
+            if (cartSubtotal) {
+                cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            }
+
+            let total = subtotal;
+            if (activeCoupon) {
+                const discount = subtotal * activeCoupon.rate;
+                total = subtotal - discount;
+
+                if (discountLabel) discountLabel.textContent = `${activeCoupon.rate * 100}%`;
+                if (cartDiscount) cartDiscount.textContent = `-$${discount.toFixed(2)}`;
+                if (cartDiscountRow) cartDiscountRow.style.display = 'flex';
+            } else {
+                if (cartDiscountRow) cartDiscountRow.style.display = 'none';
+            }
+
+            if (cartTotal) {
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+            }
+        }
+
+        function renderCart() {
+            if (!cartItemsList) return;
+            cartItemsList.textContent = '';
+
+            if (cart.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'cart-empty-message';
+                empty.textContent = 'Your cart is empty.';
+                cartItemsList.appendChild(empty);
+                
+                // Clear coupon
+                if (inputCoupon) inputCoupon.value = '';
+                if (couponStatus) couponStatus.textContent = '';
+                activeCoupon = null;
+                
+                updateCartTotals();
+                return;
+            }
+
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+
+                const graphic = document.createElement('div');
+                graphic.className = 'cart-item-graphic';
+                graphic.textContent = item.graphic || '📦';
+                div.appendChild(graphic);
+
+                const details = document.createElement('div');
+                details.className = 'cart-item-details';
+
+                const title = document.createElement('span');
+                title.className = 'cart-item-title';
+                title.textContent = item.title;
+                details.appendChild(title);
+
+                const game = document.createElement('span');
+                game.className = 'cart-item-game';
+                const gameNames = {
+                    'planet-plunder': 'Planet Plunder',
+                    'spell-controller': 'Spell Controller',
+                    'neon-racer': 'Neon Racer',
+                    'shadow-blade': 'Shadow Blade',
+                    'eco-builder': 'Eco Builder',
+                    'spell-craft': 'Spell Craft'
+                };
+                game.textContent = gameNames[item.game] || item.game;
+                details.appendChild(game);
+
+                div.appendChild(details);
+
+                const price = document.createElement('span');
+                price.className = 'cart-item-price';
+                price.textContent = `$${item.price.toFixed(2)}`;
+                div.appendChild(price);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'btn-remove-cart-item';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.title = 'Remove item';
+                removeBtn.addEventListener('click', () => {
+                    removeFromCart(item.id);
+                });
+                div.appendChild(removeBtn);
+
+                cartItemsList.appendChild(div);
+            });
+
+            updateCartTotals();
+        }
+
+        if (btnCartCheckout) {
+            btnCartCheckout.addEventListener('click', () => {
+                currentUser = getSessionUser();
+                if (!currentUser) return;
+                
+                if (cart.length === 0) {
+                    showToast("Your cart is empty.", "error");
+                    return;
+                }
+                
+                activeCheckoutDeal = null; // Clear single checkout flag
+                
+                // Set the checkout modal elements
+                const titleEl = document.getElementById('checkout-item-title');
+                
+                let itemsListText = cart.map(item => item.title).join(', ');
+                if (itemsListText.length > 50) {
+                    itemsListText = cart.length + " Items (Deals)";
+                }
+                
+                let subtotal = 0;
+                cart.forEach(item => { subtotal += item.price; });
+                let finalPrice = subtotal;
+                if (activeCoupon) {
+                    finalPrice = subtotal * (1 - activeCoupon.rate);
+                }
+                
+                if (titleEl) {
+                    titleEl.textContent = `Purchasing: ${itemsListText}`;
+                }
+                
+                activeCheckoutTotalPrice = finalPrice;
+                
+                document.querySelectorAll('.checkout-price-label').forEach(span => {
+                    span.textContent = `$${finalPrice.toFixed(2)}`;
+                });
+                
+                // Hide cart drawer before showing checkout
+                closeCartDrawer();
+                
+                openCheckoutModal();
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateAuthHUD();
+            initProfileTabs();
+            renderCart();
+            updatePortalCarousel();
+        });
+    </script>
+</body>
+</html>
