@@ -2732,6 +2732,23 @@
                 openAuthModal('signin');
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
+
+            // Smart Sticky Navbar scroll behavior
+            let lastScrollTop = 0;
+            const header = document.querySelector('header');
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    if (scrollTop > lastScrollTop && scrollTop > 80) {
+                        header.classList.add('nav-hidden');
+                        header.classList.remove('nav-visible');
+                    } else {
+                        header.classList.remove('nav-hidden');
+                        header.classList.add('nav-visible');
+                    }
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                }, { passive: true });
+            }
         });
     </script>
 </body>

@@ -174,7 +174,7 @@
                 </div>
             </div>
             
-            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; text-align: left; padding-left: 0.5rem;">Or Select a Game Realm</h2>
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center;">Or Select a Game Realm</h2>
 
             <div class="game-select-grid" id="portal-carousel-track">
                         
@@ -2508,11 +2508,15 @@
         function openCartDrawer() {
             cartDrawer.classList.add('active');
             cartDrawerOverlay.classList.add('active');
+            const headerEl = document.querySelector('header');
+            if (headerEl) headerEl.classList.add('active');
         }
 
         function closeCartDrawer() {
             cartDrawer.classList.remove('active');
             cartDrawerOverlay.classList.remove('active');
+            const headerEl = document.querySelector('header');
+            if (headerEl) headerEl.classList.remove('active');
         }
 
         if (btnOpenCart) btnOpenCart.addEventListener('click', openCartDrawer);
@@ -2723,6 +2727,27 @@
             renderCart();
             updatePortalCarousel();
             startFomoFeedInterval();
+
+            // Smart Sticky Navbar scroll behavior
+            let lastScrollTop = 0;
+            const header = document.querySelector('header');
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    // If cart drawer is active, force navigation menu visible
+                    if (cartDrawer && cartDrawer.classList.contains('active')) {
+                        return;
+                    }
+                    if (scrollTop > lastScrollTop && scrollTop > 80) {
+                        header.classList.add('nav-hidden');
+                        header.classList.remove('nav-visible');
+                    } else {
+                        header.classList.remove('nav-hidden');
+                        header.classList.add('nav-visible');
+                    }
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                }, { passive: true });
+            }
         });
     </script>
 </body>
