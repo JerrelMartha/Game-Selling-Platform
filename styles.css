@@ -1719,24 +1719,7 @@ footer {
     margin-left: 0.75rem;
 }
 
-/* Google Client ID Config Panel */
-.google-client-id-config {
-    margin-top: 1.25rem;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    font-size: 0.75rem;
-    text-align: left;
-    width: 100%;
-}
 
-.google-client-id-config label {
-    font-weight: 600;
-    color: var(--text-secondary);
-    display: block;
-    margin-bottom: 0.25rem;
-}
 
 .google-signin-btn-container {
     display: flex;

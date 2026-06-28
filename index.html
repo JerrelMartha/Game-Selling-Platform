@@ -532,14 +532,6 @@
                 <div id="google-signin-btn-register" class="google-signin-btn-container"></div>
             </form>
 
-            <!-- Custom Client ID setup widget for local testing -->
-            <div class="google-client-id-config" id="google-config-panel">
-                <label for="input-google-client-id"><svg class="icon-svg" viewBox="0 0 24 24" style="margin-right: 0.25rem;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Local Google OAuth Client ID:</label>
-                <div style="display: flex; gap: 0.5rem;">
-                    <input type="text" id="input-google-client-id" class="form-input" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; background: var(--bg-tertiary);" placeholder="Enter Google Client ID...">
-                    <button type="button" id="btn-save-google-client-id" class="btn-buy" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">Save</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1941,19 +1933,11 @@
         }
 
         function initGoogleAuth() {
-            const inputClientId = document.getElementById('input-google-client-id');
-            const savedClientId = localStorage.getItem('google_oauth_client_id');
             const defaultClientId = '102073495655-r4onl2ccm5skdf4jvl3bd1ebhaoetgi9.apps.googleusercontent.com'; // User-provided Google Client ID
             
-            const client_id = savedClientId || defaultClientId;
-
-            if (inputClientId && !inputClientId.value) {
-                inputClientId.value = savedClientId || '';
-            }
-
             try {
                 google.accounts.id.initialize({
-                    client_id: client_id,
+                    client_id: defaultClientId,
                     callback: handleCredentialResponse
                 });
 
@@ -1999,24 +1983,7 @@
             }
         }
 
-        // Local Settings Panel hooks
-        const inputClientId = document.getElementById('input-google-client-id');
-        const btnSaveClientId = document.getElementById('btn-save-google-client-id');
 
-        if (btnSaveClientId) {
-            btnSaveClientId.addEventListener('click', () => {
-                const val = inputClientId.value.trim();
-                if (val) {
-                    localStorage.setItem('google_oauth_client_id', val);
-                    showToast("Google Client ID saved. Re-initializing Google Authentication...", "success");
-                    initGoogleAuth();
-                } else {
-                    localStorage.removeItem('google_oauth_client_id');
-                    showToast("Google Client ID cleared. Re-initializing Google Authentication...", "success");
-                    initGoogleAuth();
-                }
-            });
-        }
 
         // ==========================================
         // DYNAMIC GAMES SHOWCASE & INTERACTIVE MODAL
