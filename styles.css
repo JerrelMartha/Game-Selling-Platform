@@ -922,8 +922,8 @@ footer {
 
 .shop-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.25rem;
 }
 
 .shop-card {
@@ -950,7 +950,7 @@ footer {
 
 .shop-card-media {
     position: relative;
-    height: 140px;
+    height: 110px;
     background: var(--bg-tertiary);
     display: flex;
     align-items: center;
@@ -959,7 +959,7 @@ footer {
 }
 
 .shop-card-graphic {
-    font-size: 3rem;
+    font-size: 2.2rem;
     transition: var(--transition-smooth);
 }
 
@@ -974,35 +974,35 @@ footer {
 
 .shop-card-badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.75rem;
+    right: 0.75rem;
     background: rgba(9, 9, 11, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-secondary);
-    padding: 0.25rem 0.75rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 600;
 }
 
 .shop-card-info {
-    padding: 1.5rem;
+    padding: 1.15rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .shop-card-title {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: var(--text-primary);
 }
 
 .shop-card-description {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.45;
     flex-grow: 1;
 }
 
@@ -1010,13 +1010,13 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 1rem;
+    padding-top: 0.75rem;
 }
 
 .shop-card-price {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--text-primary);
 }
@@ -1025,11 +1025,11 @@ footer {
     background: var(--text-primary);
     color: var(--bg-primary);
     border: none;
-    padding: 0.5rem 1.25rem;
+    padding: 0.45rem 1.1rem;
     border-radius: 6px;
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: var(--transition-smooth);
@@ -2822,6 +2822,34 @@ footer {
 .fomo-feed-time {
     font-size: 0.68rem;
     color: var(--text-muted);
+}
+
+/* Points Shop Hero Highlight */
+.points-shop-hero-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245, 158, 11, 0.6) !important;
+    box-shadow: 0 15px 45px rgba(245, 158, 11, 0.3) !important;
+}
+
+.points-shop-hero-card:hover .points-shop-hero-graphic {
+    transform: scale(1.1) rotate(5deg);
+    color: hsl(35, 95%, 60%) !important;
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
+}
+
+@media (max-width: 768px) {
+    .points-shop-hero-card {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 2rem !important;
+        gap: 1.5rem !important;
+    }
+    .points-shop-hero-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 
