@@ -471,6 +471,9 @@
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
 
+    <!-- Live Purchase Notification Ticker (FOMO Feed) -->
+    <div class="fomo-feed-container" id="fomo-feed-container"></div>
+
     <script>
         const SVG_ICONS = {
             coin: `<svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12"></path><path d="M15 9H11.5a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5H9"></path></svg>`,
@@ -748,6 +751,229 @@
         let activeGameFilter = null; // 'planet-plunder' or 'spell-controller'
         let currentShopMode = 'deals'; // 'deals' or 'rewards'
         let cart = [];
+
+        // ==========================================
+        // FOMO (FEAR OF MISSING OUT) ENGINE
+        // ==========================================
+        
+        const FOMO_USERNAMES = [
+            'ShadowLord', 'StarVoyager', 'SpellWeaver', 'CyberRacer', 'EcoPioneer', 
+            'NebulaNova', 'DungeonMaster', 'ApexPredator', 'ShinobiX', 'VoxelBuilder',
+            'SpacePirate', 'SolarWinds', 'AuraSlinger', 'PixelKnight', 'VoidWalker',
+            'ChronoSage', 'DarkBlade', 'GravityDefier', 'StarDust', 'QuantumDrifter'
+        ];
+
+        // Stock levels state management
+        function getFomoStock() {
+            try {
+                const stock = localStorage.getItem('realm_link_fomo_stock');
+                return stock ? JSON.parse(stock) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveFomoStock(stock) {
+            try {
+                localStorage.setItem('realm_link_fomo_stock', JSON.stringify(stock));
+            } catch (e) {}
+        }
+
+        function getOrInitItemStock(itemId) {
+            const stock = getFomoStock();
+            if (!stock[itemId]) {
+                stock[itemId] = {
+                    remaining: Math.floor(Math.random() * 6) + 3, // 3 to 8 left
+                    claimedPercent: Math.floor(Math.random() * 10) + 88 // 88% to 97%
+                };
+                saveFomoStock(stock);
+            }
+            return stock[itemId];
+        }
+
+        function decrementRandomItemStock() {
+            const stock = getFomoStock();
+            const items = [];
+            const games = Object.keys(shopDeals);
+            
+            games.forEach(g => {
+                shopDeals[g].forEach(d => items.push(d.id));
+                pointRewards[g].forEach(r => items.push(r.id));
+            });
+
+            if (items.length === 0) return;
+            const randomItemId = items[Math.floor(Math.random() * items.length)];
+            
+            if (!stock[randomItemId]) {
+                stock[randomItemId] = {
+                    remaining: Math.floor(Math.random() * 6) + 3,
+                    claimedPercent: Math.floor(Math.random() * 10) + 88
+                };
+            }
+
+            const itemStock = stock[randomItemId];
+            if (itemStock.remaining > 1) {
+                itemStock.remaining--;
+                itemStock.claimedPercent = Math.min(99, itemStock.claimedPercent + Math.floor(Math.random() * 2) + 1);
+                saveFomoStock(stock);
+
+                const remainingLabel = document.getElementById(`fomo-stock-remaining-${randomItemId}`);
+                const claimedLabel = document.getElementById(`fomo-stock-claimed-${randomItemId}`);
+                const barFill = document.getElementById(`fomo-stock-bar-fill-${randomItemId}`);
+                if (remainingLabel) {
+                    if (randomItemId.includes('-reward-')) {
+                        remainingLabel.textContent = `Only ${itemStock.remaining} claims left!`;
+                    } else {
+                        remainingLabel.textContent = `Only ${itemStock.remaining} left in stock!`;
+                    }
+                }
+                if (claimedLabel) {
+                    claimedLabel.textContent = `${itemStock.claimedPercent}% claimed`;
+                }
+                if (barFill) {
+                    barFill.style.width = `${itemStock.claimedPercent}%`;
+                }
+            }
+        }
+
+        // Expiry timers state management (deals group resets)
+        function getFomoTimers() {
+            try {
+                const timers = localStorage.getItem('realm_link_fomo_timers');
+                return timers ? JSON.parse(timers) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveFomoTimers(timers) {
+            try {
+                localStorage.setItem('realm_link_fomo_timers', JSON.stringify(timers));
+            } catch (e) {}
+        }
+
+        function getOrInitGameTimer(gameKey) {
+            const timers = getFomoTimers();
+            const now = Date.now();
+            if (!timers[gameKey] || timers[gameKey] < now) {
+                // Set custom countdown (between 1.5 and 3.5 hours)
+                timers[gameKey] = now + Math.floor((1.5 + Math.random() * 2) * 60 * 60 * 1000);
+                saveFomoTimers(timers);
+            }
+            return timers[gameKey];
+        }
+
+        function updateCountdownTimers() {
+            const now = Date.now();
+            const timers = getFomoTimers();
+            const elements = document.querySelectorAll('.fomo-timer-countdown');
+            elements.forEach(el => {
+                const gameKey = el.getAttribute('data-game');
+                let expiry = parseInt(el.getAttribute('data-expiry') || "0");
+                
+                if (expiry < now) {
+                    expiry = getOrInitGameTimer(gameKey);
+                    el.setAttribute('data-expiry', expiry);
+                }
+
+                const diff = expiry - now;
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const hStr = String(hours).padStart(2, '0');
+                const mStr = String(minutes).padStart(2, '0');
+                const sStr = String(seconds).padStart(2, '0');
+
+                el.textContent = `${hStr}:${mStr}:${sStr}`;
+            });
+        }
+
+        // Live Purchase Activity Feed ticker
+        function triggerLiveFomoNotification() {
+            const container = document.getElementById('fomo-feed-container');
+            if (!container) return;
+
+            let game = activeGameFilter;
+            if (!game) {
+                const games = Object.keys(shopDeals);
+                game = games[Math.floor(Math.random() * games.length)];
+            }
+
+            const type = Math.random() > 0.4 ? 'deal' : 'reward';
+            let item = null;
+            let verb = '';
+            
+            if (type === 'deal') {
+                const deals = shopDeals[game];
+                item = deals[Math.floor(Math.random() * deals.length)];
+                verb = 'purchased';
+            } else {
+                const rewards = pointRewards[game];
+                item = rewards[Math.floor(Math.random() * rewards.length)];
+                verb = 'redeemed';
+            }
+
+            if (!item) return;
+
+            const username = FOMO_USERNAMES[Math.floor(Math.random() * FOMO_USERNAMES.length)];
+            const avatarChar = username.charAt(0);
+            
+            const itemFeed = document.createElement('div');
+            itemFeed.className = 'fomo-feed-item';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'fomo-feed-avatar';
+            avatar.textContent = avatarChar;
+            
+            const body = document.createElement('div');
+            body.className = 'fomo-feed-body';
+            
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'fomo-feed-title';
+            titleSpan.innerHTML = `<span style="color: hsl(35, 90%, 55%); font-weight: 700;">${username}</span> ${verb} <span style="color: var(--text-primary); font-weight: 600;">${item.title}</span>`;
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'fomo-feed-time';
+            timeSpan.textContent = 'Just now';
+            
+            body.appendChild(titleSpan);
+            body.appendChild(timeSpan);
+            
+            itemFeed.appendChild(avatar);
+            itemFeed.appendChild(body);
+            
+            container.appendChild(itemFeed);
+            setTimeout(() => itemFeed.classList.add('show'), 50);
+
+            setTimeout(() => {
+                itemFeed.classList.remove('show');
+                itemFeed.classList.add('hide');
+                setTimeout(() => itemFeed.remove(), 400);
+            }, 5500);
+        }
+
+        // Initialize Intervals
+        setInterval(updateCountdownTimers, 1000);
+        
+        setInterval(() => {
+            if (Math.random() > 0.4) {
+                decrementRandomItemStock();
+            }
+        }, 20000);
+
+        let fomoFeedInterval = null;
+        function startFomoFeedInterval() {
+            if (fomoFeedInterval) clearInterval(fomoFeedInterval);
+            
+            const triggerNext = () => {
+                triggerLiveFomoNotification();
+                const nextDelay = Math.floor(14000 + Math.random() * 11000);
+                fomoFeedInterval = setTimeout(triggerNext, nextDelay);
+            };
+            
+            fomoFeedInterval = setTimeout(triggerNext, 5000);
+        }
         let activeCoupon = null; // { code: 'START2026', rate: 0.20 }
 
         function calculatePoints(price) {
@@ -999,6 +1225,29 @@
                 
                 info.appendChild(title);
                 info.appendChild(desc);
+
+                // FOMO Countdown Timer
+                const gameExpiry = getOrInitGameTimer(gameKey);
+                const timerContainer = document.createElement('div');
+                timerContainer.className = 'shop-card-fomo-timer';
+                timerContainer.innerHTML = `<svg class="icon-svg" viewBox="0 0 24 24" style="stroke-width: 2.5;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Ends in: <span class="fomo-timer-countdown" data-game="${gameKey}" data-expiry="${gameExpiry}">--:--:--</span>`;
+                info.appendChild(timerContainer);
+
+                // FOMO Stock Indicator
+                const stock = getOrInitItemStock(deal.id);
+                const stockContainer = document.createElement('div');
+                stockContainer.className = 'shop-card-fomo-stock';
+                stockContainer.innerHTML = `
+                    <div class="fomo-stock-header">
+                        <span class="fomo-stock-label" id="fomo-stock-remaining-${deal.id}">Only ${stock.remaining} left in stock!</span>
+                        <span class="fomo-stock-claimed" id="fomo-stock-claimed-${deal.id}">${stock.claimedPercent}% claimed</span>
+                    </div>
+                    <div class="fomo-stock-bar">
+                        <div class="fomo-stock-bar-fill" id="fomo-stock-bar-fill-${deal.id}" style="width: ${stock.claimedPercent}%"></div>
+                    </div>
+                `;
+                info.appendChild(stockContainer);
+
                 info.appendChild(footer);
                 
                 card.appendChild(media);
@@ -1062,6 +1311,22 @@
                 
                 info.appendChild(title);
                 info.appendChild(desc);
+
+                // FOMO Stock Indicator
+                const stock = getOrInitItemStock(reward.id);
+                const stockContainer = document.createElement('div');
+                stockContainer.className = 'shop-card-fomo-stock';
+                stockContainer.innerHTML = `
+                    <div class="fomo-stock-header">
+                        <span class="fomo-stock-label" id="fomo-stock-remaining-${reward.id}">Only ${stock.remaining} claims left!</span>
+                        <span class="fomo-stock-claimed" id="fomo-stock-claimed-${reward.id}">${stock.claimedPercent}% claimed</span>
+                    </div>
+                    <div class="fomo-stock-bar">
+                        <div class="fomo-stock-bar-fill" id="fomo-stock-bar-fill-${reward.id}" style="width: ${stock.claimedPercent}%"></div>
+                    </div>
+                `;
+                info.appendChild(stockContainer);
+
                 info.appendChild(footer);
                 
                 card.appendChild(media);
@@ -2365,6 +2630,7 @@
             initProfileTabs();
             renderCart();
             updatePortalCarousel();
+            startFomoFeedInterval();
         });
     </script>
 </body>
