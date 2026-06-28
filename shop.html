@@ -214,6 +214,15 @@
                             <p class="game-select-card-desc">Unlock floating wizard keep designs, rune combination books, and friendly drake companions.</p>
                         </div>
 
+                        <!-- Card 7: Realm Points -->
+                        <div class="game-select-card" data-game="realm-points" id="card-points-shop" style="background: linear-gradient(135deg, hsl(35, 90%, 15%), var(--bg-secondary)); border: 1px solid rgba(245, 158, 11, 0.2);">
+                            <div class="game-select-card-graphic" style="color: hsl(35, 90%, 55%);">
+                                <svg class="icon-svg icon-svg-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12"></path><path d="M15 9H11.5a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5H9"></path></svg>
+                            </div>
+                            <h2 class="game-select-card-title">Realm Points</h2>
+                            <p class="game-select-card-desc">Purchase global Realm Points to spend on cosmetic rewards across all games. First-time buyers get +50% extra points!</p>
+                        </div>
+
                     </div>
                 </div>
                 
@@ -544,6 +553,10 @@
                 user.inventory = [];
                 changed = true;
             }
+            if (user.hasPurchasedCurrency === undefined) {
+                user.hasPurchasedCurrency = false;
+                changed = true;
+            }
             return changed;
         }
 
@@ -689,6 +702,14 @@
                 { id: 'sf-theme-keep', title: 'Floating Keep Castle Skin', desc: 'Construct wizard towers with gravity-defying floating voxel bases.', price: 16.99, graphic: '🏰', badge: 'Castle Theme' },
                 { id: 'sf-vfx-portal', title: 'Nether Portal Animation', desc: 'Replaces generic teleport lines with a purple dimensional portal.', price: 5.99, graphic: '🌀', badge: 'Portal Animation' },
                 { id: 'sf-bundle-creator', title: 'Archon Builder Vault', desc: 'Includes 2,000 Runes, a Floating Island Theme, and Baby Drake pet.', price: 32.99, graphic: '🔮', badge: 'Legendary Bundle' }
+            ],
+            'realm-points': [
+                { id: 'rp-tier-1', title: '500 Realm Points', desc: 'Standard pack to start unlocking low-tier cosmetic skins and minor items.', price: 4.99, graphic: '🪙', badge: 'Tier 1', points: 500 },
+                { id: 'rp-tier-2', title: '1,200 Realm Points', desc: 'Recommended starter package. Grants enough points to obtain a premium character decal or staff.', price: 9.99, graphic: '🪙', badge: 'Tier 2', points: 1200 },
+                { id: 'rp-tier-3', title: '2,500 Realm Points', desc: 'Grants enough points to obtain custom weapon trails and legendary dome themes.', price: 19.99, graphic: '🪙', badge: 'Tier 3', points: 2500 },
+                { id: 'rp-tier-4', title: '6,500 Realm Points', desc: 'Value package. Stock up on points to buy multiple character bundles and neon underglows.', price: 49.99, graphic: '🪙', badge: 'Tier 4', points: 6500 },
+                { id: 'rp-tier-5', title: '14,000 Realm Points', desc: 'Fortress Vault pack. Perfect for collectors wanting complete cosmetics across all dimensions.', price: 99.99, graphic: '🪙', badge: 'Tier 5', points: 14000 },
+                { id: 'rp-tier-6', title: '30,000 Realm Points', desc: 'Ultimate Overlord hoard. The maximum point tier offering the absolute best conversion rate.', price: 199.99, graphic: '🪙', badge: 'Tier 6', points: 30000 }
             ]
         };
 
@@ -745,6 +766,10 @@
             'spell-craft': {
                 title: 'Spell Craft Items Store',
                 desc: 'Purchase floating keep castle skins, spell book scrolls, and companions.'
+            },
+            'realm-points': {
+                title: 'Realm Points Currency Store',
+                desc: 'Purchase global Realm Points to spend in game shops. First-time buyers get +50% extra points on all tiers!'
             }
         };
 
@@ -1005,6 +1030,7 @@
         document.getElementById('card-sb').addEventListener('click', () => enterGameShop('shadow-blade'));
         document.getElementById('card-eb').addEventListener('click', () => enterGameShop('eco-builder'));
         document.getElementById('card-sf').addEventListener('click', () => enterGameShop('spell-craft'));
+        document.getElementById('card-points-shop').addEventListener('click', () => enterGameShop('realm-points'));
 
         btnBackSelection.addEventListener('click', () => exitGameShop());
 
@@ -1162,6 +1188,12 @@
             container.textContent = '';
             
             const deals = shopDeals[gameKey];
+            
+            let isFirstTimeBuyer = false;
+            if (gameKey === 'realm-points' && currentUser) {
+                isFirstTimeBuyer = !currentUser.hasPurchasedCurrency;
+            }
+
             deals.forEach(deal => {
                 const card = document.createElement('div');
                 card.className = 'shop-card';
@@ -1192,6 +1224,69 @@
                 desc.className = 'shop-card-description';
                 desc.textContent = deal.desc;
                 
+                if (gameKey === 'realm-points') {
+                    const basePoints = deal.points;
+                    const bonusPoints = Math.floor(basePoints * 0.5);
+                    const totalPoints = basePoints + bonusPoints;
+                    
+                    const pointsDetail = document.createElement('div');
+                    pointsDetail.style.display = 'flex';
+                    pointsDetail.style.justifyContent = 'space-between';
+                    pointsDetail.style.alignItems = 'center';
+                    pointsDetail.style.marginTop = '0.5rem';
+                    pointsDetail.style.fontWeight = '700';
+                    pointsDetail.style.fontSize = '1.1rem';
+                    
+                    if (isFirstTimeBuyer) {
+                        pointsDetail.innerHTML = `
+                            <span style="color: hsl(35, 90%, 55%);">${totalPoints.toLocaleString()} Points</span>
+                            <span style="font-size: 0.65rem; color: hsl(140, 80%, 45%); background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); padding: 0.15rem 0.4rem; border-radius: 4px;">+${bonusPoints.toLocaleString()} BONUS</span>
+                        `;
+                    } else {
+                        pointsDetail.innerHTML = `
+                            <span style="color: hsl(35, 90%, 55%);">${basePoints.toLocaleString()} Points</span>
+                        `;
+                    }
+                    
+                    const currentRate = (isFirstTimeBuyer ? totalPoints / deal.price : basePoints / deal.price).toFixed(1);
+                    const rateEl = document.createElement('span');
+                    rateEl.style.fontSize = '0.72rem';
+                    rateEl.style.color = 'var(--text-muted)';
+                    rateEl.style.display = 'block';
+                    rateEl.style.marginTop = '0.1rem';
+                    rateEl.textContent = `Rate: ${currentRate} pts/$`;
+                    
+                    info.appendChild(title);
+                    info.appendChild(desc);
+                    info.appendChild(pointsDetail);
+                    info.appendChild(rateEl);
+                } else {
+                    info.appendChild(title);
+                    info.appendChild(desc);
+
+                    // FOMO Countdown Timer
+                    const gameExpiry = getOrInitGameTimer(gameKey);
+                    const timerContainer = document.createElement('div');
+                    timerContainer.className = 'shop-card-fomo-timer';
+                    timerContainer.innerHTML = `<svg class="icon-svg" viewBox="0 0 24 24" style="stroke-width: 2.5;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Ends in: <span class="fomo-timer-countdown" data-game="${gameKey}" data-expiry="${gameExpiry}">--:--:--</span>`;
+                    info.appendChild(timerContainer);
+
+                    // FOMO Stock Indicator
+                    const stock = getOrInitItemStock(deal.id);
+                    const stockContainer = document.createElement('div');
+                    stockContainer.className = 'shop-card-fomo-stock';
+                    stockContainer.innerHTML = `
+                        <div class="fomo-stock-header">
+                            <span class="fomo-stock-label" id="fomo-stock-remaining-${deal.id}">Only ${stock.remaining} left in stock!</span>
+                            <span class="fomo-stock-claimed" id="fomo-stock-claimed-${deal.id}">${stock.claimedPercent}% claimed</span>
+                        </div>
+                        <div class="fomo-stock-bar">
+                            <div class="fomo-stock-bar-fill" id="fomo-stock-bar-fill-${deal.id}" style="width: ${stock.claimedPercent}%"></div>
+                        </div>
+                    `;
+                    info.appendChild(stockContainer);
+                }
+
                 const footer = document.createElement('div');
                 footer.className = 'shop-card-footer';
                 
@@ -1203,15 +1298,17 @@
                 price.className = 'shop-card-price';
                 price.textContent = `$${deal.price.toFixed(2)}`;
                 
-                const pointsBonusObj = calculatePoints(deal.price);
-                const earnsEl = document.createElement('span');
-                earnsEl.style.fontSize = '0.72rem';
-                earnsEl.style.color = 'var(--text-secondary)';
-                earnsEl.style.marginTop = '0.1rem';
-                earnsEl.innerHTML = `Earns ${SVG_ICONS.coin} ${pointsBonusObj.total.toLocaleString()} pts`;
-                
                 priceContainer.appendChild(price);
-                priceContainer.appendChild(earnsEl);
+                
+                if (gameKey !== 'realm-points') {
+                    const pointsBonusObj = calculatePoints(deal.price);
+                    const earnsEl = document.createElement('span');
+                    earnsEl.style.fontSize = '0.72rem';
+                    earnsEl.style.color = 'var(--text-secondary)';
+                    earnsEl.style.marginTop = '0.1rem';
+                    earnsEl.innerHTML = `Earns ${SVG_ICONS.coin} ${pointsBonusObj.total.toLocaleString()} pts`;
+                    priceContainer.appendChild(earnsEl);
+                }
                 
                 const buyBtn = document.createElement('button');
                 buyBtn.className = 'btn-buy';
@@ -1222,37 +1319,10 @@
                 
                 footer.appendChild(priceContainer);
                 footer.appendChild(buyBtn);
-                
-                info.appendChild(title);
-                info.appendChild(desc);
-
-                // FOMO Countdown Timer
-                const gameExpiry = getOrInitGameTimer(gameKey);
-                const timerContainer = document.createElement('div');
-                timerContainer.className = 'shop-card-fomo-timer';
-                timerContainer.innerHTML = `<svg class="icon-svg" viewBox="0 0 24 24" style="stroke-width: 2.5;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Ends in: <span class="fomo-timer-countdown" data-game="${gameKey}" data-expiry="${gameExpiry}">--:--:--</span>`;
-                info.appendChild(timerContainer);
-
-                // FOMO Stock Indicator
-                const stock = getOrInitItemStock(deal.id);
-                const stockContainer = document.createElement('div');
-                stockContainer.className = 'shop-card-fomo-stock';
-                stockContainer.innerHTML = `
-                    <div class="fomo-stock-header">
-                        <span class="fomo-stock-label" id="fomo-stock-remaining-${deal.id}">Only ${stock.remaining} left in stock!</span>
-                        <span class="fomo-stock-claimed" id="fomo-stock-claimed-${deal.id}">${stock.claimedPercent}% claimed</span>
-                    </div>
-                    <div class="fomo-stock-bar">
-                        <div class="fomo-stock-bar-fill" id="fomo-stock-bar-fill-${deal.id}" style="width: ${stock.claimedPercent}%"></div>
-                    </div>
-                `;
-                info.appendChild(stockContainer);
-
                 info.appendChild(footer);
                 
                 card.appendChild(media);
                 card.appendChild(info);
-                
                 container.appendChild(card);
             });
         }
@@ -1577,12 +1647,26 @@
             
             let totalCost = 0;
             let totalPointsEarned = 0;
+            let totalPointsFromPackages = 0;
+            let firstTimeBuyerBonusAwarded = false;
             let itemTitles = [];
             
+            const isFirstTime = !accounts[userKey].hasPurchasedCurrency;
+            
             if (activeCheckoutDeal) {
-                // Direct Checkout (e.g. single item fallback)
-                const pointBreakdown = calculatePoints(activeCheckoutDeal.price);
-                totalPointsEarned = pointBreakdown.total;
+                // Direct Checkout
+                if (activeCheckoutDeal.id.startsWith('rp-')) {
+                    let amt = activeCheckoutDeal.points;
+                    if (isFirstTime) {
+                        amt = Math.floor(amt * 1.5);
+                        firstTimeBuyerBonusAwarded = true;
+                    }
+                    totalPointsFromPackages += amt;
+                } else {
+                    const pointBreakdown = calculatePoints(activeCheckoutDeal.price);
+                    totalPointsEarned = pointBreakdown.total;
+                }
+                
                 totalCost = activeCheckoutDeal.price;
                 itemTitles.push(activeCheckoutDeal.title);
                 
@@ -1609,16 +1693,26 @@
                 }
                 totalCost = subtotal - discountAmount;
                 
-                // Calculate points based on final total discounted cost
-                const pointBreakdown = calculatePoints(totalCost);
-                totalPointsEarned = pointBreakdown.total;
-                
+                let regularItemsCost = 0;
                 cart.forEach(item => {
                     itemTitles.push(item.title);
                     
-                    // Apportion price after coupon discount to items for billing invoices
                     const itemShare = subtotal > 0 ? (item.price / subtotal) : 0;
                     const finalItemPrice = item.price - (discountAmount * itemShare);
+                    
+                    if (item.id.startsWith('rp-')) {
+                        const dealObj = shopDeals['realm-points'].find(d => d.id === item.id);
+                        if (dealObj) {
+                            let amt = dealObj.points;
+                            if (isFirstTime) {
+                                amt = Math.floor(amt * 1.5);
+                                firstTimeBuyerBonusAwarded = true;
+                            }
+                            totalPointsFromPackages += amt;
+                        }
+                    } else {
+                        regularItemsCost += finalItemPrice;
+                    }
                     
                     accounts[userKey].inventory.push({
                         id: item.id,
@@ -1631,10 +1725,20 @@
                         txnId: txnId
                     });
                 });
+                
+                if (regularItemsCost > 0) {
+                    const pointBreakdown = calculatePoints(regularItemsCost);
+                    totalPointsEarned = pointBreakdown.total;
+                }
             }
             
             const userPoints = accounts[userKey].points || 0;
-            accounts[userKey].points = userPoints + totalPointsEarned;
+            const pointsToCredit = totalPointsEarned + totalPointsFromPackages;
+            accounts[userKey].points = userPoints + pointsToCredit;
+            
+            if (totalPointsFromPackages > 0) {
+                accounts[userKey].hasPurchasedCurrency = true;
+            }
             
             saveAccounts(accounts);
             closeCheckoutModal();
@@ -1648,8 +1752,20 @@
                 renderCart();
             }
             
-            let pointsMessage = `Earned ${totalPointsEarned.toLocaleString()} Points!`;
-            showToast("Purchase success! " + pointsMessage, "success");
+            let successMsg = "Purchase success! ";
+            if (totalPointsFromPackages > 0) {
+                successMsg += `Credited ${totalPointsFromPackages.toLocaleString()} Points`;
+                if (firstTimeBuyerBonusAwarded) {
+                    successMsg += " (includes +50% First Time Buyer Bonus!)";
+                }
+                if (totalPointsEarned > 0) {
+                    successMsg += ` and earned ${totalPointsEarned.toLocaleString()} transaction points!`;
+                }
+            } else {
+                successMsg += `Earned ${totalPointsEarned.toLocaleString()} Points!`;
+            }
+            
+            showToast(successMsg, "success");
             
             updateAuthHUD();
             if (profileModal.classList.contains('active')) {

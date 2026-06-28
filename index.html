@@ -804,6 +804,10 @@
                 user.inventory = [];
                 changed = true;
             }
+            if (user.hasPurchasedCurrency === undefined) {
+                user.hasPurchasedCurrency = false;
+                changed = true;
+            }
             return changed;
         }
 
